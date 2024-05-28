@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context reloadable="true">
+    <ResourceLink
+        global = "jdbc/xiangzy_db_uni"
+        name ="jdbc/xiangzy_db_uni"
+        type = "javax.sql.DataSource"/>
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+</Context>
