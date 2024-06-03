@@ -13,7 +13,24 @@
     <div style="text-align:center;">
         <h1 style="font-size: 75px">社会公众预约申请</h1>
     </div>
+    <script type="text/javascript">
+        function addFriend() {
+            var friendList = document.getElementById('friendList');
+            var newFriend = document.createElement('div');
+            newFriend.className = 'friend-item';
+            newFriend.innerHTML =
+                '<div><input type="text" name="friendName" placeholder="姓名" style="width: 98%;"></div>' +
+                '<div><input type="text" name="friendId" placeholder="身份证号" style="width: 98%;"></div>' +
+                '<div><input type="text" name="friendPhoneNumber" placeholder="手机号" style="width: 98%;"></div>' +
+                '<button type="button" onclick="removeFriend(this)">删除</button>';
+            friendList.appendChild(newFriend);
+        }
 
+        function removeFriend(button) {
+            var friendList = document.getElementById('friendList');
+            friendList.removeChild(button.parentNode);
+        }
+    </script>
 </head>
 <style>
     .grey1{
@@ -67,6 +84,16 @@
         width: 100%;
         height: 100%;
         font-size: 30px;
+    }
+    .friend-item {
+        margin-bottom: 10px;
+    }
+    .friend-item div {
+        margin-bottom: 5px;
+    }
+    .friend-item button {
+        display: block;
+        margin-top: 5px;
     }
 </style>
 <body>
@@ -152,7 +179,16 @@
                 </tr>
                 <tr>
                     <td class="grey1">陪同人员</td>
-                    <td><input type="text" name="accompany" style="width: 98%"> </td>
+                    <td>
+                        <div id="friendList">
+                            <div class="friend-item">
+                                <div><input type="text" name="friendName" placeholder="姓名" style="width: 98%;"></div>
+                                <div><input type="text" name="friendId" placeholder="身份证号" style="width: 98%;"></div>
+                                <div><input type="text" name="friendPhoneNumber" placeholder="手机号" style="width: 98%;"></div>
+                                <button type="button" onclick="addFriend()">新增</button>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
