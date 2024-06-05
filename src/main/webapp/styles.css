@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.university-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.pass-info h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.time {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.qr-code {
+    width: 150px;
+    height: 150px;
+    background-color: #e0e0e0;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.qr-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ban-icon {
+    width: 100%;
+    height: 100%;
+    background-image: url('img/img_1.png'); /* This should be the ban icon image */
+    background-size: cover;
+}
+
+.refresh-button {
+    display: block;
+    margin: 0 auto 20px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.refresh-button:hover {
+    background-color: #45a049;
+}
+
+.note {
+    font-size: 12px;
+    color: #999;
+}

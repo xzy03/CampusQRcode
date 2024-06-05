@@ -80,9 +80,10 @@
                 若未收到短信，可通过一下网址领取：
             </label>
             <br>
-            <label class="boldblue ">
+            <a href="/mytest_war_exploded/yanzhengma.jsp" class="boldblue">
                 http://www.xwryjx.zjut.edu.cn/Pass Code/
-            </label>
+            </a>
+
         </td>
     </tr>
 </table>

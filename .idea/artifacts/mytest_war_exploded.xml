@@ -19,6 +19,8 @@
           <element id="library" level="project" name="Maven: com.beust:jcommander:1.82" />
           <element id="library" level="project" name="Maven: com.github.jai-imageio:jai-imageio-core:1.4.0" />
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.8" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk18on:1.74" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-ext-jdk18on:1.74" />
         </element>
       </element>
       <element id="directory" name="META-INF">

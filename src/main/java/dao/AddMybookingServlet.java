@@ -49,7 +49,7 @@ public class AddMybookingServlet extends HttpServlet{
                 friends.add(friend);
             }
             mybooking.setFriends(friends);
-            Mybooking mybooking_check = new Mybooking();
+            Mybooking mybooking_check;
             mybooking_check = mybookingDao.findByMain(mybooking.getPerson().getId(),mybooking.getIntime());
             if(mybooking_check!=null){
                 HashMap<String, String> formData = new HashMap<>();
@@ -66,7 +66,7 @@ public class AddMybookingServlet extends HttpServlet{
                 formData.put("friends", gson.toJson(mybooking.getFriends())); // 添加friends列表的JSON字符串
                 QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode\\" + mybooking.getPerson().getId() +mybooking.getIntime()+ ".png");
                 QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode\\" + mybooking.getPerson().getId() + "invalid.png");
-                mybooking.setQRcode("QRCode/" + mybooking.getPerson().getId() +mybooking.getCampus()+mybooking.getIntime()+ ".png");
+                mybooking.setQRcode("QRCode/" + mybooking.getPerson().getId() +mybooking.getIntime()+ ".png");
                 mybooking.setInvalidQRcode("QRCode/" + mybooking.getPerson().getId() + "invalid.png");
                 boolean successupdate_check = mybookingDao.updatemybooking(mybooking);
                 return;
@@ -88,9 +88,14 @@ public class AddMybookingServlet extends HttpServlet{
                 formData.put("friends", gson.toJson(mybooking.getFriends())); // 添加friends列表的JSON字符串
                 QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode\\" + mybooking.getPerson().getId() +mybooking.getIntime()+ ".png");
                 QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode\\" + mybooking.getPerson().getId() + "invalid.png");
-                mybooking.setQRcode("QRCode/" + mybooking.getPerson().getId() +mybooking.getCampus()+mybooking.getIntime()+ ".png");
+                mybooking.setQRcode("QRCode/" + mybooking.getPerson().getId() +mybooking.getIntime()+ ".png");
                 mybooking.setInvalidQRcode("QRCode/" + mybooking.getPerson().getId() + "invalid.png");
                 boolean successupdate = mybookingDao.updatemybooking(mybooking);
+                if(successupdate){
+                    System.out.println("更新成功");
+                }else{
+                    System.out.println("更新失败");
+                }
             } else {
                 System.out.println("添加失败");
             }
