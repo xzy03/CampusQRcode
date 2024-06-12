@@ -1,4 +1,4 @@
-package dao;
+package phone;
 import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,26 +15,27 @@ import dao.MybookingDao;
 import dao.MybookingDaoImpl;
 import com.example.mytest.QRCodeGenerator;
 import com.google.gson.Gson;
+import system.SM4Util;
 
 @WebServlet("/AddMybookingServlet")
 public class AddMybookingServlet extends HttpServlet{
     private Gson gson = new Gson();
     public void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException,IOException{
-
         MybookingDao mybookingDao = new MybookingDaoImpl();
         Mybooking mybooking = new Mybooking();
-        Person person = new Person();
         try{
+            //加密id和phoneNumber
+            String id = SM4Util.encrypt(request.getParameter("id"));
+            String phoneNumber = SM4Util.encrypt(request.getParameter("phoneNumber"));
             mybooking.setCampus(request.getParameter("campus"));
             mybooking.setIntime(request.getParameter("intime"));
             mybooking.setOuttime(request.getParameter("outtime"));
             mybooking.setunit(request.getParameter("unit"));
             mybooking.setVehicle(request.getParameter("vehicle"));
             mybooking.setVname(request.getParameter("vname"));
-            person.setId(request.getParameter("id"));
-            person.setName(request.getParameter("name"));
-            person.setphoneNumber(request.getParameter("phoneNumber"));
-            mybooking.setPerson(person);
+            mybooking.setId(id);
+            mybooking.setName(request.getParameter("name"));
+            mybooking.setphoneNumber(phoneNumber);
             mybooking.setNumber(Integer.parseInt(request.getParameter("pnumber")));
 
             String[] friendNames = request.getParameterValues("friendName");
@@ -50,7 +51,7 @@ public class AddMybookingServlet extends HttpServlet{
             }
             mybooking.setFriends(friends);
             Mybooking mybooking_check;
-            mybooking_check = mybookingDao.findByMain(mybooking.getPerson().getId(),mybooking.getIntime());
+            mybooking_check = mybookingDao.findByMain(mybooking.getId(),mybooking.getIntime());
             if(mybooking_check!=null){
                 HashMap<String, String> formData = new HashMap<>();
                 formData.put("campus", mybooking.getCampus());
@@ -59,15 +60,15 @@ public class AddMybookingServlet extends HttpServlet{
                 formData.put("unit", mybooking.getunit());
                 formData.put("vehicle", mybooking.getVehicle());
                 formData.put("vname", mybooking.getVname());
-                formData.put("id", mybooking.getPerson().getId());
-                formData.put("name", mybooking.getPerson().getName());
-                formData.put("phoneNumber", mybooking.getPerson().getphoneNumber());
+                formData.put("id", mybooking.getId());
+                formData.put("name", mybooking.getName());
+                formData.put("phoneNumber", mybooking.getphoneNumber());
                 formData.put("number", String.valueOf(mybooking.getNumber()));
                 formData.put("friends", gson.toJson(mybooking.getFriends())); // 添加friends列表的JSON字符串
-                QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode\\" + mybooking.getPerson().getId() +mybooking.getIntime()+ ".png");
-                QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode\\" + mybooking.getPerson().getId() + "invalid.png");
-                mybooking.setQRcode("QRCode/" + mybooking.getPerson().getId() +mybooking.getIntime()+ ".png");
-                mybooking.setInvalidQRcode("QRCode/" + mybooking.getPerson().getId() + "invalid.png");
+                QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() +mybooking.getIntime()+ ".png");
+                QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() + "invalid.png");
+                mybooking.setQRcode("QRCode_Mybooking/" + mybooking.getId() +mybooking.getIntime()+ ".png");
+                mybooking.setInvalidQRcode("QRCode_Mybooking/" + mybooking.getId() + "invalid.png");
                 boolean successupdate_check = mybookingDao.updatemybooking(mybooking);
                 return;
             }
@@ -81,15 +82,15 @@ public class AddMybookingServlet extends HttpServlet{
                 formData.put("unit", mybooking.getunit());
                 formData.put("vehicle", mybooking.getVehicle());
                 formData.put("vname", mybooking.getVname());
-                formData.put("id", mybooking.getPerson().getId());
-                formData.put("name", mybooking.getPerson().getName());
-                formData.put("phoneNumber", mybooking.getPerson().getphoneNumber());
+                formData.put("id", mybooking.getId());
+                formData.put("name", mybooking.getName());
+                formData.put("phoneNumber", mybooking.getphoneNumber());
                 formData.put("number", String.valueOf(mybooking.getNumber()));
                 formData.put("friends", gson.toJson(mybooking.getFriends())); // 添加friends列表的JSON字符串
-                QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode\\" + mybooking.getPerson().getId() +mybooking.getIntime()+ ".png");
-                QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode\\" + mybooking.getPerson().getId() + "invalid.png");
-                mybooking.setQRcode("QRCode/" + mybooking.getPerson().getId() +mybooking.getIntime()+ ".png");
-                mybooking.setInvalidQRcode("QRCode/" + mybooking.getPerson().getId() + "invalid.png");
+                QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() +mybooking.getIntime()+ ".png");
+                QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() + "invalid.png");
+                mybooking.setQRcode("QRCode_Mybooking/" + mybooking.getId() +mybooking.getIntime()+ ".png");
+                mybooking.setInvalidQRcode("QRCode_Mybooking/" + mybooking.getId() + "invalid.png");
                 boolean successupdate = mybookingDao.updatemybooking(mybooking);
                 if(successupdate){
                     System.out.println("更新成功");

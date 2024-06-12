@@ -49,7 +49,7 @@
 <div style="text-align:center;">
     <h1 style="letter-spacing: 10px;">社会公众进校预约通道</h1>
     <h2 style="letter-spacing: 10px;">（最长可预约7天有效）</h2>
-    <img src="QRCode/qrcode_login.jpg" alt="二维码" width="200" height="200">
+    <img src="QRCode_Mybooking/qrcode_login.jpg" alt="二维码" width="200" height="200">
     <h3>微信扫码→填报申请→登记车牌→验码进校</h3>
     <h3>机动车人校限速缓行，违停超速将纳入“黑名单"</h3>
     <img src="img/保卫处.png" width="150" height="150">

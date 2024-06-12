@@ -21,7 +21,7 @@
         <span class="university-name">浙江工业大学</span>
     </header>
     <div class="pass-info">
-        <h1>${querymybooking.getPerson().getName()}通行码</h1>
+        <h1>${querymybooking.getName()}通行码</h1>
         <p id="time" class="time"></p>
         <div class="qr-code">
             <div class="qr-overlay">
@@ -31,6 +31,7 @@
             </div>
         </div>
         <button class="refresh-button" onclick="updateTime()">刷新</button>
+        <p class="note">社会预约</p>
         <p class="note">当前时间不在有效预约时间内，暂不可进校</p>
     </div>
 </div>

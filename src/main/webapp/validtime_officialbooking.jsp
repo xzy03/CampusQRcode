@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: 69472
-  Date: 2024/5/30
-  Time: 22:05
+  User: 86173
+  Date: 2024/6/9
+  Time: 15:23
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -20,13 +20,13 @@
         <span class="university-name">浙江工业大学</span>
     </header>
     <div class="pass-info">
-        <h1>${querymybooking.getName()} 通行码</h1>
+        <h1>${queryofficialbooking.getName()} 通行码</h1>
         <p id="time" class="time"></p>
         <div class="qr-code">
-            <img src="${querymybooking.getQRcode()}" alt="QR Code" class="qr-image">
+            <img src="${queryofficialbooking.getQRcode()}" alt="QR Code" class="qr-image">
         </div>
-        <p class="valid-time">有效时间至：${querymybooking.getOuttime()}</p>
-        <p class="note">社会预约</p>
+        <p class="valid-time">有效时间至：${queryofficialbooking.getOuttime()}</p>
+        <p class="note">公务预约</p>
         <p class="note">凭此码或身份证进校，并服从学校相关管理规定。</p>
     </div>
 </div>

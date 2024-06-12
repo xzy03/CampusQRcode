@@ -32,7 +32,8 @@
             <label for="phone">电话号码：</label>
             <input type="text" id="phone" name="phone" placeholder="请输入电话号码">
         </div>
-        <input class="btn" type="submit" value="查询">
+        <input class="btn" name="submitAction" type="submit" value="查看二维码">
+        <input class="btn" name="submitAction" type="submit" value="查询历史记录">
 
         <p>${message}</p>
     </div>

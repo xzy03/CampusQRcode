@@ -161,7 +161,7 @@
 <div class="container">
 
         <button class="button button1" onclick="location.href='submitForm.jsp'">社会公众预约</button>
-        <button class="button button2">公务预约</button>
+        <button class="button button2" onclick="location.href='Business_submitForm.jsp'">公务预约</button>
 
 
 </div>

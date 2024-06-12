@@ -8,30 +8,27 @@ public class Mybooking extends Person {
     private String intime;//入校时间
     private String outtime;//出校时间
     private String unit;//所在单位
-
     private String vehicle;//交通方式
     private String vname;//车牌号
-    private Person person;//预约人
-
     private int number;//随行人员数量
-
     private List<Person> friends;
     private String QRcode;//二维码路径
-
     private String InvalidQRcode;//无效二维码路径
 
     public Mybooking(){
         super();
     }
 
-    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, Person person, int number, List<Person> friends,String QRcode, String InvalidQRcode) {
+    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, int number, List<Person> friends,String QRcode, String InvalidQRcode) {
         this.campus = campus;
         this.intime = intime;
         this.outtime = outtime;
         this.unit = unit;
         this.vehicle = vehicle;
         this.vname = vname;
-        this.person = person;
+        this.setName(name);
+        this.setId(id);
+        this.setphoneNumber(phoneNumber);
         this.number = number;
         this.friends = friends;
         this.QRcode = QRcode;
@@ -39,40 +36,44 @@ public class Mybooking extends Person {
     }
 
     //同行人员可以不填
-    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, Person person, String name, String id, String phnumber, String QRcode, String InvalidQRcode) {
-        super(name, id, phnumber);
+    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, String QRcode, String InvalidQRcode) {
         this.campus = campus;
         this.intime = intime;
         this.outtime = outtime;
         this.unit = unit;
         this.vehicle = vehicle;
         this.vname = vname;
-        this.person = person;
+        this.setName(name);
+        this.setId(id);
+        this.setphoneNumber(phoneNumber);
         this.QRcode = QRcode;
         this.InvalidQRcode = InvalidQRcode;
     }
 
 
     //二维码路径可以不填
-    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, Person person, String name, String id, String phnumber) {
-        super(name, id, phnumber);
+    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber) {
         this.campus = campus;
         this.intime = intime;
         this.outtime = outtime;
         this.unit = unit;
         this.vehicle = vehicle;
         this.vname = vname;
-        this.person = person;
+        this.setName(name);
+        this.setId(id);
+        this.setphoneNumber(phoneNumber);
     }
 
     //车牌号可以不填
-    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle , Person person) {
+    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle , String name,String id,String phoneNumber) {
         this.campus = campus;
         this.intime = intime;
         this.outtime = outtime;
         this.unit = unit;
         this.vehicle=vehicle;
-        this.person = person;
+        this.setName(name);
+        this.setId(id);
+        this.setphoneNumber(phoneNumber);
     }
 
     public String getQRcode() {
@@ -135,13 +136,6 @@ public class Mybooking extends Person {
         this.vname = vname;
     }
 
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person friend) {
-        this.person = friend;
-    }
 
     public int getNumber() {
         return number;

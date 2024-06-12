@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import beans.Mybooking;
 import beans.Person;
 import com.google.gson.Gson;
+import system.SM4Util;
+
 import java.text.SimpleDateFormat;
 
 public class MybookingDaoImpl implements MybookingDao {
@@ -19,9 +21,9 @@ public class MybookingDaoImpl implements MybookingDao {
             pstmt.setString(4, mybooking.getunit());
             pstmt.setString(5, mybooking.getVehicle());
             pstmt.setString(6, mybooking.getVname());
-            pstmt.setString(7, mybooking.getPerson().getId());
-            pstmt.setString(8, mybooking.getPerson().getName());
-            pstmt.setString(9, mybooking.getPerson().getphoneNumber());
+            pstmt.setString(7, mybooking.getId());
+            pstmt.setString(8, mybooking.getName());
+            pstmt.setString(9, mybooking.getphoneNumber());
             pstmt.setInt(10, mybooking.getNumber());
             Gson gson = new Gson();
             String friendsJson = gson.toJson(mybooking.getFriends());
@@ -58,7 +60,9 @@ public class MybookingDaoImpl implements MybookingDao {
                 mybooking.setunit(rs.getString("uint"));
                 mybooking.setVehicle(rs.getString("vehicle"));
                 mybooking.setVname(rs.getString("vname"));
-                mybooking.setPerson(new Person(rs.getString("visitor_name"), rs.getString("visitor_id"), rs.getString("visitor_phoneNumber")));
+                mybooking.setId(rs.getString("visitor_id"));
+                mybooking.setName(rs.getString("visitor_name"));
+                mybooking.setphoneNumber(rs.getString("visitor_phoneNumber"));
                 mybooking.setNumber(rs.getInt("friend_number"));
                 Gson gson = new Gson();
                 String friendsJson = rs.getString("follow_person");
@@ -112,7 +116,9 @@ public class MybookingDaoImpl implements MybookingDao {
                 mybooking.setunit(rs.getString("uint"));
                 mybooking.setVehicle(rs.getString("vehicle"));
                 mybooking.setVname(rs.getString("vname"));
-                mybooking.setPerson(new Person(rs.getString("visitor_name"), rs.getString("visitor_id"), rs.getString("visitor_phoneNumber")));
+                mybooking.setId(rs.getString("visitor_id"));
+                mybooking.setName(rs.getString("visitor_name"));
+                mybooking.setphoneNumber(rs.getString("visitor_phoneNumber"));
                 mybooking.setNumber(rs.getInt("friend_number"));
                 Gson gson = new Gson();
                 String friendsJson = rs.getString("follow_person");
@@ -129,7 +135,9 @@ public class MybookingDaoImpl implements MybookingDao {
                 mybooking.setunit(rs.getString("uint"));
                 mybooking.setVehicle(rs.getString("vehicle"));
                 mybooking.setVname(rs.getString("vname"));
-                mybooking.setPerson(new Person(rs.getString("visitor_name"), rs.getString("visitor_id"), rs.getString("visitor_phoneNumber")));
+                mybooking.setId(rs.getString("visitor_id"));
+                mybooking.setName(rs.getString("visitor_name"));
+                mybooking.setphoneNumber(rs.getString("visitor_phoneNumber"));
                 mybooking.setNumber(rs.getInt("friend_number"));
                 Gson gson = new Gson();
                 String friendsJson = rs.getString("follow_person");
@@ -144,22 +152,36 @@ public class MybookingDaoImpl implements MybookingDao {
         }
         return mybooking;
     }
-    public ArrayList<Mybooking> findAllMybooking() {
-        Mybooking mybooking = new Mybooking();
-        ArrayList<Mybooking> mybookings = new ArrayList<Mybooking>();
-        String sql = "select * from mybooking";
+    public ArrayList<Mybooking> findAllQueryMybooking(String id, String name, String phone) {
+        ArrayList<Mybooking> mybookings = new ArrayList<>();
+        String sql = "select * from mybooking where visitor_id=? and visitor_name=? and visitor_phoneNumber=?";
         try {
             Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, name);
+            pstmt.setString(3, phone);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
+                String id1 = SM4Util.decrypt(rs.getString("visitor_id"));
+                String phone1 = SM4Util.decrypt(rs.getString("visitor_phoneNumber"));
+                Mybooking mybooking = new Mybooking();
                 mybooking.setCampus(rs.getString("campus"));
                 mybooking.setIntime(rs.getString("intime"));
                 mybooking.setOuttime(rs.getString("outtime"));
-                mybooking.setunit(rs.getString("unit"));
+                mybooking.setunit(rs.getString("uint"));
                 mybooking.setVehicle(rs.getString("vehicle"));
                 mybooking.setVname(rs.getString("vname"));
-                mybooking.setPerson(new Person(rs.getString("id"), rs.getString("name"), rs.getString("phoneNumber")));
+                mybooking.setId(id1);
+                mybooking.setName(rs.getString("visitor_name"));
+                mybooking.setphoneNumber(phone1);
+                mybooking.setNumber(rs.getInt("friend_number"));
+                Gson gson = new Gson();
+                String friendsJson = rs.getString("follow_person");
+                ArrayList<Person> friends = gson.fromJson(friendsJson, ArrayList.class);
+                mybooking.setFriends(friends);
+                mybooking.setQRcode(rs.getString("qrcode"));
+                mybooking.setInvalidQRcode(rs.getString("invalid_qrcode"));
                 mybookings.add(mybooking);
             }
         } catch (SQLException e) {
@@ -181,16 +203,16 @@ public class MybookingDaoImpl implements MybookingDao {
             pstmt.setString(4, mybooking.getunit());
             pstmt.setString(5, mybooking.getVehicle());
             pstmt.setString(6, mybooking.getVname());
-            pstmt.setString(7, mybooking.getPerson().getId());
-            pstmt.setString(8, mybooking.getPerson().getName());
-            pstmt.setString(9, mybooking.getPerson().getphoneNumber());
+            pstmt.setString(7, mybooking.getId());
+            pstmt.setString(8, mybooking.getName());
+            pstmt.setString(9, mybooking.getphoneNumber());
             pstmt.setInt(10, mybooking.getNumber());
             Gson gson = new Gson();
             String friendsJson = gson.toJson(mybooking.getFriends());
             pstmt.setString(11, friendsJson);
             pstmt.setString(12, mybooking.getQRcode());
             pstmt.setString(13, mybooking.getInvalidQRcode());
-            pstmt.setString(14, mybooking.getPerson().getId());
+            pstmt.setString(14, mybooking.getId());
             pstmt.setString(15, mybooking.getIntime());
             pstmt.executeUpdate();
             return true;
