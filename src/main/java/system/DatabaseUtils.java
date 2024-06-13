@@ -15,7 +15,7 @@ public class DatabaseUtils {
     static {
         try {
             InitialContext context = new InitialContext();
-            dataSource = (DataSource) context.lookup("java:comp/env/jdbc/baoc_db_uni");
+            dataSource = (DataSource) context.lookup("java:comp/env/jdbc/xiangzy_db_uni");
         } catch (NamingException e) {
             e.printStackTrace();
             throw new ExceptionInInitializerError("Initial DataSource failed");

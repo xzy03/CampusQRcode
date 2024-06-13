@@ -1,33 +1,37 @@
 package dao;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 import beans.Mybooking;
 import beans.Person;
 import com.google.gson.Gson;
 import system.SM4Util;
 
 import java.text.SimpleDateFormat;
+import system.StatisticsPublic;
+import system.DatabaseUtils;
 
 public class MybookingDaoImpl implements MybookingDao {
     public boolean addmybooking(Mybooking mybooking) {
         Connection conn = getConnection();
         PreparedStatement pstmt = null;
-        String sql = "insert into mybooking values(?,?,?,?,?,?,?,?,?,?,?,null,null)";
+        String sql = "insert into mybooking values(?,?,?,?,?,?,?,?,?,?,?,?,null,null)";
         try {
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, mybooking.getCampus());
-            pstmt.setString(2, mybooking.getIntime());
-            pstmt.setString(3, mybooking.getOuttime());
-            pstmt.setString(4, mybooking.getunit());
-            pstmt.setString(5, mybooking.getVehicle());
-            pstmt.setString(6, mybooking.getVname());
-            pstmt.setString(7, mybooking.getId());
-            pstmt.setString(8, mybooking.getName());
-            pstmt.setString(9, mybooking.getphoneNumber());
-            pstmt.setInt(10, mybooking.getNumber());
+            pstmt.setString(1, mybooking.getApplytime());
+            pstmt.setString(2, mybooking.getCampus());
+            pstmt.setString(3, mybooking.getIntime());
+            pstmt.setString(4, mybooking.getOuttime());
+            pstmt.setString(5, mybooking.getunit());
+            pstmt.setString(6, mybooking.getVehicle());
+            pstmt.setString(7, mybooking.getVname());
+            pstmt.setString(8, mybooking.getId());
+            pstmt.setString(9, mybooking.getName());
+            pstmt.setString(10, mybooking.getphoneNumber());
+            pstmt.setInt(11, mybooking.getNumber());
             Gson gson = new Gson();
             String friendsJson = gson.toJson(mybooking.getFriends());
-            pstmt.setString(11, friendsJson);
+            pstmt.setString(12, friendsJson);
             pstmt.executeUpdate();
             return true;
         } catch (SQLException se) {
@@ -54,6 +58,7 @@ public class MybookingDaoImpl implements MybookingDao {
             pstmt.setString(2, intime);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
+                mybooking.setApplytime(rs.getString("applytime"));
                 mybooking.setCampus(rs.getString("campus"));
                 mybooking.setIntime(rs.getString("intime"));
                 mybooking.setOuttime(rs.getString("outtime"));
@@ -110,6 +115,7 @@ public class MybookingDaoImpl implements MybookingDao {
             }
             rs.previous();
             if (rs.next()) {
+                mybooking.setApplytime(rs.getString("applytime"));
                 mybooking.setCampus(rs.getString("campus"));
                 mybooking.setIntime(rs.getString("intime"));
                 mybooking.setOuttime(rs.getString("outtime"));
@@ -129,6 +135,7 @@ public class MybookingDaoImpl implements MybookingDao {
             }
             else {
                 rs.last();
+                mybooking.setApplytime(rs.getString("applytime"));
                 mybooking.setCampus(rs.getString("campus"));
                 mybooking.setIntime(rs.getString("intime"));
                 mybooking.setOuttime(rs.getString("outtime"));
@@ -166,6 +173,7 @@ public class MybookingDaoImpl implements MybookingDao {
                 String id1 = SM4Util.decrypt(rs.getString("visitor_id"));
                 String phone1 = SM4Util.decrypt(rs.getString("visitor_phoneNumber"));
                 Mybooking mybooking = new Mybooking();
+                mybooking.setApplytime(rs.getString("applytime"));
                 mybooking.setCampus(rs.getString("campus"));
                 mybooking.setIntime(rs.getString("intime"));
                 mybooking.setOuttime(rs.getString("outtime"));
@@ -194,26 +202,27 @@ public class MybookingDaoImpl implements MybookingDao {
     public boolean updatemybooking(Mybooking mybooking) {
         Connection conn = getConnection();
         PreparedStatement pstmt = null;
-        String sql = "update mybooking set campus=?,intime=?,outtime=?,uint=?,vehicle=?,vname=?,visitor_id=?,visitor_name=?,visitor_phoneNumber=?,friend_number=?,follow_person=?,qrcode=?,invalid_qrcode=? where visitor_id=? and intime=?";
+        String sql = "update mybooking set applytime=?,campus=?,intime=?,outtime=?,uint=?,vehicle=?,vname=?,visitor_id=?,visitor_name=?,visitor_phoneNumber=?,friend_number=?,follow_person=?,qrcode=?,invalid_qrcode=? where visitor_id=? and intime=?";
         try {
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, mybooking.getCampus());
-            pstmt.setString(2, mybooking.getIntime());
-            pstmt.setString(3, mybooking.getOuttime());
-            pstmt.setString(4, mybooking.getunit());
-            pstmt.setString(5, mybooking.getVehicle());
-            pstmt.setString(6, mybooking.getVname());
-            pstmt.setString(7, mybooking.getId());
-            pstmt.setString(8, mybooking.getName());
-            pstmt.setString(9, mybooking.getphoneNumber());
-            pstmt.setInt(10, mybooking.getNumber());
+            pstmt.setString(1, mybooking.getApplytime());
+            pstmt.setString(2, mybooking.getCampus());
+            pstmt.setString(3, mybooking.getIntime());
+            pstmt.setString(4, mybooking.getOuttime());
+            pstmt.setString(5, mybooking.getunit());
+            pstmt.setString(6, mybooking.getVehicle());
+            pstmt.setString(7, mybooking.getVname());
+            pstmt.setString(8, mybooking.getId());
+            pstmt.setString(9, mybooking.getName());
+            pstmt.setString(10, mybooking.getphoneNumber());
+            pstmt.setInt(11, mybooking.getNumber());
             Gson gson = new Gson();
             String friendsJson = gson.toJson(mybooking.getFriends());
-            pstmt.setString(11, friendsJson);
-            pstmt.setString(12, mybooking.getQRcode());
-            pstmt.setString(13, mybooking.getInvalidQRcode());
-            pstmt.setString(14, mybooking.getId());
-            pstmt.setString(15, mybooking.getIntime());
+            pstmt.setString(12, friendsJson);
+            pstmt.setString(13, mybooking.getQRcode());
+            pstmt.setString(14, mybooking.getInvalidQRcode());
+            pstmt.setString(15, mybooking.getId());
+            pstmt.setString(16, mybooking.getIntime());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException se) {
@@ -228,4 +237,143 @@ public class MybookingDaoImpl implements MybookingDao {
             }
         }
     }
+    public List<Mybooking> searchBookings(String applyTime, String entryTime, String campus, String unit, String name, String idCard) {
+        List<Mybooking> bookings = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM mybooking WHERE 1=1");
+
+            // 构建查询条件
+            if (applyTime != null && !applyTime.isEmpty()) {
+                sqlBuilder.append(" AND applytime = ?");
+            }
+            if (entryTime != null && !entryTime.isEmpty()) {
+                sqlBuilder.append(" AND intime = ?");
+            }
+            if (campus != null && !campus.isEmpty()) {
+                sqlBuilder.append(" AND campus LIKE ?");
+            }
+            if (unit != null && !unit.isEmpty()) {
+                sqlBuilder.append(" AND uint LIKE ?");
+            }
+            if (name != null && !name.isEmpty()) {
+                sqlBuilder.append(" AND visitor_name LIKE ?");
+            }
+            if (idCard != null && !idCard.isEmpty()) {
+                sqlBuilder.append(" AND visitor_id LIKE ?");
+            }
+
+            stmt = conn.prepareStatement(sqlBuilder.toString());
+            int parameterIndex = 1;
+            if (applyTime != null && !applyTime.isEmpty()) {
+                stmt.setString(parameterIndex++, applyTime);
+            }
+            if (entryTime != null && !entryTime.isEmpty()) {
+                stmt.setString(parameterIndex++, entryTime);
+            }
+            if (campus != null && !campus.isEmpty()) {
+                stmt.setString(parameterIndex++, "%" + campus + "%");
+            }
+            if (unit != null && !unit.isEmpty()) {
+                stmt.setString(parameterIndex++, "%" + unit + "%");
+            }
+            if (name != null && !name.isEmpty()) {
+                stmt.setString(parameterIndex++, "%" + name + "%");
+            }
+            if (idCard != null && !idCard.isEmpty()) {
+                stmt.setString(parameterIndex++, "%" + idCard + "%");
+            }
+            System.out.println(stmt);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Mybooking booking = new Mybooking(
+                        rs.getString("visitor_name"),
+                        rs.getString("visitor_id"),
+                        rs.getString("visitor_phonenumber"),
+                        rs.getString("campus"),
+                        rs.getString("intime"),
+                        rs.getString("outtime"),
+                        rs.getString("uint"),
+                        rs.getString("vehicle"),
+                        rs.getString("vname"),
+                        rs.getInt("friend_number"),
+                        rs.getString("follow_person"),
+                        rs.getString("QRcode"),
+                        rs.getString("invalid_QRcode"),
+                        rs.getString("applytime")
+                );
+                bookings.add(booking);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            Dao.close(rs, stmt, conn);
+        }
+
+        return bookings;
+    }
+
+    public List<StatisticsPublic> getStatistics(String applyMonth, String entryMonth, String campus) {
+        List<StatisticsPublic> statisticsPublicList = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) as reservationCount, SUM(friend_number + 1) as personCount");
+        sql.append(" FROM mybooking WHERE 1=1");
+
+        if (applyMonth != null && !applyMonth.isEmpty()) {
+            sql.append(" AND applytime LIKE ?");
+        }
+        if (entryMonth != null && !entryMonth.isEmpty()) {
+            sql.append(" AND intime LIKE ?");
+        }
+        if (campus != null && !campus.isEmpty()) {
+            sql.append(" AND campus LIKE ?");
+        }
+
+        try (Connection conn = DatabaseUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+            int index = 1;
+            if (applyMonth != null && !applyMonth.isEmpty()) {
+                stmt.setString(index++, applyMonth+"-%");
+            }
+            else{
+                applyMonth="全部";
+            }
+            if (entryMonth != null && !entryMonth.isEmpty()) {
+                stmt.setString(index++, entryMonth+"-%");
+            }
+            else{
+                entryMonth="全部";
+            }
+            if (campus != null && !campus.isEmpty()) {
+                stmt.setString(index++, "%"+campus+"%");
+            }
+            else{
+                campus="全部";
+            }
+            System.out.println(stmt);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    StatisticsPublic stat = new StatisticsPublic();
+                    stat.setApplyMonth(applyMonth);
+                    stat.setEntryMonth(entryMonth);
+                    stat.setCampus(campus);
+                    stat.setReservationCount(rs.getInt("reservationCount"));
+                    stat.setPersonCount(rs.getInt("personCount"));
+                    statisticsPublicList.add(stat);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return statisticsPublicList;
+    }
+
+
 }

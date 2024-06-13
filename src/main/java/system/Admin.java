@@ -4,16 +4,16 @@ public class Admin {
     private String name;
     private String loginName;
     private String password;
-    private int departmentId;
+    private String departmentName;
     private String phone;
     private String role;
 
     // 全参构造函数
-    public Admin(String name, String loginName, String password, int departmentId, String phone, String role) {
+    public Admin(String name, String loginName, String password, String departmentName, String phone, String role) {
         this.name = name;
         this.loginName = loginName;
         this.password = password;
-        this.departmentId = departmentId;
+        this.departmentName = departmentName;
         this.phone = phone;
         this.role = role;
     }
@@ -47,12 +47,12 @@ public class Admin {
         this.password = password;
     }
 
-    public int getDepartmentId() {
-        return departmentId;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public String getPhone() {
@@ -77,7 +77,7 @@ public class Admin {
                 "name='" + name + '\'' +
                 ", loginName='" + loginName + '\'' +
                 ", password='" + password + '\'' +
-                ", departmentId=" + departmentId +
+                ", departmentName=" + departmentName +
                 ", phone='" + phone + '\'' +
                 ", role='" + role + '\'' +
                 '}';

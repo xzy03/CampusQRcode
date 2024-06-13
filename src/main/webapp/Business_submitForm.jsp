@@ -110,7 +110,7 @@
                 <tbody>
                 <tr>
                     <td class="grey1">申请日期</td>
-                    <td ><input type="date" style="width: 98%"> </td>
+                    <td ><input type="date" name="applytime" style="width: 98%"> </td>
                 </tr>
                 <tr>
                     <td class="grey1">预约校区</td>

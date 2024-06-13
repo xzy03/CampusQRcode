@@ -16,6 +16,7 @@ import dao.MybookingDaoImpl;
 import com.example.mytest.QRCodeGenerator;
 import com.google.gson.Gson;
 import system.SM4Util;
+import util.ImageToBase64;
 
 @WebServlet("/AddMybookingServlet")
 public class AddMybookingServlet extends HttpServlet{
@@ -27,6 +28,7 @@ public class AddMybookingServlet extends HttpServlet{
             //加密id和phoneNumber
             String id = SM4Util.encrypt(request.getParameter("id"));
             String phoneNumber = SM4Util.encrypt(request.getParameter("phoneNumber"));
+            mybooking.setApplytime(request.getParameter("applytime"));
             mybooking.setCampus(request.getParameter("campus"));
             mybooking.setIntime(request.getParameter("intime"));
             mybooking.setOuttime(request.getParameter("outtime"));
@@ -54,6 +56,7 @@ public class AddMybookingServlet extends HttpServlet{
             mybooking_check = mybookingDao.findByMain(mybooking.getId(),mybooking.getIntime());
             if(mybooking_check!=null){
                 HashMap<String, String> formData = new HashMap<>();
+                formData.put("applytime", mybooking.getApplytime());
                 formData.put("campus", mybooking.getCampus());
                 formData.put("intime", mybooking.getIntime());
                 formData.put("outtime", mybooking.getOuttime());
@@ -67,8 +70,18 @@ public class AddMybookingServlet extends HttpServlet{
                 formData.put("friends", gson.toJson(mybooking.getFriends())); // 添加friends列表的JSON字符串
                 QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() +mybooking.getIntime()+ ".png");
                 QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() + "invalid.png");
+//                ServletContext context = request.getServletContext();
+//                String deploymentPath = context.getRealPath("/");
+//                System.out.println("Deployment path: " + deploymentPath);
+                QRCodeGenerator.generateQRCode(formData,"C:\\Users\\86173\\IdeaProjects\\mytest\\target\\mytest-1.0-SNAPSHOT\\QRCode_Mybooking\\" + mybooking.getId() +mybooking.getIntime()+ ".png");
+                QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\target\\mytest-1.0-SNAPSHOT\\QRCode_Mybooking\\" + mybooking.getId() + "invalid.png");
+//                String base64String = ImageToBase64.encodeImageToBase64("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() +mybooking.getIntime()+ ".png");
+//                mybooking.setQRcode(base64String);
+//                String base64String_invalid = ImageToBase64.encodeImageToBase64("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() + "invalid.png");
+//                mybooking.setInvalidQRcode(base64String_invalid);
                 mybooking.setQRcode("QRCode_Mybooking/" + mybooking.getId() +mybooking.getIntime()+ ".png");
                 mybooking.setInvalidQRcode("QRCode_Mybooking/" + mybooking.getId() + "invalid.png");
+//                System.out.println(base64String);
                 boolean successupdate_check = mybookingDao.updatemybooking(mybooking);
                 return;
             }
@@ -76,6 +89,7 @@ public class AddMybookingServlet extends HttpServlet{
             if (success) {
                 System.out.println("添加成功");
                 HashMap<String, String> formData = new HashMap<>();
+                formData.put("applytime", mybooking.getApplytime());
                 formData.put("campus", mybooking.getCampus());
                 formData.put("intime", mybooking.getIntime());
                 formData.put("outtime", mybooking.getOuttime());
@@ -89,6 +103,17 @@ public class AddMybookingServlet extends HttpServlet{
                 formData.put("friends", gson.toJson(mybooking.getFriends())); // 添加friends列表的JSON字符串
                 QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() +mybooking.getIntime()+ ".png");
                 QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() + "invalid.png");
+//                ServletContext context = request.getServletContext();
+//                String deploymentPath = context.getRealPath("/");
+//                System.out.println("Deployment path: " + deploymentPath);
+                QRCodeGenerator.generateQRCode(formData,"C:\\Users\\86173\\IdeaProjects\\mytest\\target\\mytest-1.0-SNAPSHOT\\QRCode_Mybooking\\" + mybooking.getId() +mybooking.getIntime()+ ".png");
+                QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\target\\mytest-1.0-SNAPSHOT\\QRCode_Mybooking\\" + mybooking.getId() + "invalid.png");
+//                String base64String = ImageToBase64.encodeImageToBase64("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() +mybooking.getIntime()+ ".png");
+//                mybooking.setQRcode(base64String);
+//                String base64String_invalid = ImageToBase64.encodeImageToBase64("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Mybooking\\" + mybooking.getId() + "invalid.png");
+//                mybooking.setInvalidQRcode(base64String_invalid);
+//                System.out.println(base64String);
+//                System.out.println(base64String_invalid);
                 mybooking.setQRcode("QRCode_Mybooking/" + mybooking.getId() +mybooking.getIntime()+ ".png");
                 mybooking.setInvalidQRcode("QRCode_Mybooking/" + mybooking.getId() + "invalid.png");
                 boolean successupdate = mybookingDao.updatemybooking(mybooking);

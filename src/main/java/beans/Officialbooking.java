@@ -15,8 +15,8 @@ public class Officialbooking extends Mybooking {
 
 
     //什么都有
-    public Officialbooking(String campus, String intime, String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, int number, List<Person> friends, String QRcode, String InvalidQRcode, String department, String receptionist, String reason, String permit) {
-        super(campus, intime, outtime, unit, vehicle, vname, name,id,phoneNumber, number, friends, QRcode, InvalidQRcode);
+    public Officialbooking(String applytime,String campus, String intime, String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, int number, List<Person> friends, String QRcode, String InvalidQRcode, String department, String receptionist, String reason, String permit) {
+        super(applytime,campus, intime, outtime, unit, vehicle, vname, name,id,phoneNumber, number, friends, QRcode, InvalidQRcode);
         this.department = department;
         this.receptionist = receptionist;
         this.reason = reason;
@@ -24,8 +24,8 @@ public class Officialbooking extends Mybooking {
     }
 
     //可以没有随行人员
-    public Officialbooking(String campus, String intime, String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, String QRcode, String InvalidQRcode, String department, String receptionist, String reason, String permit) {
-        super(campus, intime, outtime, unit, vehicle, vname, name,id,phoneNumber, QRcode, InvalidQRcode);
+    public Officialbooking(String applytime,String campus, String intime, String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, String QRcode, String InvalidQRcode, String department, String receptionist, String reason, String permit) {
+        super(applytime,campus, intime, outtime, unit, vehicle, vname, name,id,phoneNumber, QRcode, InvalidQRcode);
         this.department = department;
         this.receptionist = receptionist;
         this.reason = reason;
@@ -33,8 +33,8 @@ public class Officialbooking extends Mybooking {
     }
 
     //可以没有二维码
-    public Officialbooking(String campus, String intime, String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, String department, String receptionist, String reason, String permit) {
-        super(campus, intime, outtime, unit, vehicle, vname, name,id,phoneNumber);
+    public Officialbooking(String applytime,String campus, String intime, String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, String department, String receptionist, String reason, String permit) {
+        super(applytime,campus, intime, outtime, unit, vehicle, vname, name,id,phoneNumber);
         this.department = department;
         this.receptionist = receptionist;
         this.reason = reason;
@@ -42,8 +42,17 @@ public class Officialbooking extends Mybooking {
     }
 
     //车牌号可以不填
-    public Officialbooking(String campus, String intime, String outtime, String unit, String vehicle, String name,String id,String phoneNumber, String department, String receptionist, String reason, String permit) {
-        super(campus, intime, outtime, unit, vehicle, name,id,phoneNumber);
+    public Officialbooking(String applytime,String campus, String intime, String outtime, String unit, String vehicle, String name,String id,String phoneNumber, String department, String receptionist, String reason, String permit) {
+        super(applytime,campus, intime, outtime, unit, vehicle, name,id,phoneNumber);
+        this.department = department;
+        this.receptionist = receptionist;
+        this.reason = reason;
+        this.permit = permit;
+    }
+    //with json
+    public Officialbooking(String name, String id, String phoneNumber, String campus, String intime, String outtime, String unit, String vehicle, String vname, int number, String friendsJson, String QRcode, String InvalidQRcode, String department, String receptionist, String reason, String permit, String applytime) {
+        super(name, id, phoneNumber, campus, intime, outtime, unit, vehicle, vname, number, friendsJson, QRcode, InvalidQRcode, applytime);
+        //System.out.println("运行完父类构造");
         this.department = department;
         this.receptionist = receptionist;
         this.reason = reason;

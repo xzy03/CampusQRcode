@@ -2,8 +2,11 @@ package beans;
 
 import java.util.Date;
 import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Mybooking extends Person {
+    private String applytime;//申请时间
     private String campus;//校区名字
     private String intime;//入校时间
     private String outtime;//出校时间
@@ -19,7 +22,8 @@ public class Mybooking extends Person {
         super();
     }
 
-    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, int number, List<Person> friends,String QRcode, String InvalidQRcode) {
+    public Mybooking(String applytime,String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, int number, List<Person> friends,String QRcode, String InvalidQRcode) {
+        this.applytime = applytime;
         this.campus = campus;
         this.intime = intime;
         this.outtime = outtime;
@@ -36,7 +40,8 @@ public class Mybooking extends Person {
     }
 
     //同行人员可以不填
-    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, String QRcode, String InvalidQRcode) {
+    public Mybooking(String applytime,String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber, String QRcode, String InvalidQRcode) {
+        this.applytime = applytime;
         this.campus = campus;
         this.intime = intime;
         this.outtime = outtime;
@@ -52,7 +57,8 @@ public class Mybooking extends Person {
 
 
     //二维码路径可以不填
-    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber) {
+    public Mybooking(String applytime,String campus, String intime,String outtime, String unit, String vehicle, String vname, String name,String id,String phoneNumber) {
+        this.applytime = applytime;
         this.campus = campus;
         this.intime = intime;
         this.outtime = outtime;
@@ -65,7 +71,8 @@ public class Mybooking extends Person {
     }
 
     //车牌号可以不填
-    public Mybooking(String campus, String intime,String outtime, String unit, String vehicle , String name,String id,String phoneNumber) {
+    public Mybooking(String applytime,String campus, String intime,String outtime, String unit, String vehicle , String name,String id,String phoneNumber) {
+        this.applytime = applytime;
         this.campus = campus;
         this.intime = intime;
         this.outtime = outtime;
@@ -75,6 +82,25 @@ public class Mybooking extends Person {
         this.setId(id);
         this.setphoneNumber(phoneNumber);
     }
+
+    // Constructor with JSON friends
+    public Mybooking(String name, String id, String phoneNumber, String campus, String intime, String outtime, String unit, String vehicle, String vname, int number, String friendsJson, String QRcode, String InvalidQRcode, String applytime) {
+        super(name, id, phoneNumber);
+        //System.out.println("运行完Person构造");
+        this.campus = campus;
+        this.intime = intime;
+        this.outtime = outtime;
+        this.unit = unit;
+        this.vehicle = vehicle;
+        this.vname = vname;
+        this.number = number;
+        this.friends = new Gson().fromJson(friendsJson, new TypeToken<List<Person>>() {}.getType());
+        this.QRcode = QRcode;
+        this.InvalidQRcode = InvalidQRcode;
+        this.applytime = applytime;
+        //System.out.println("运行完Person构造");
+    }
+
 
     public String getQRcode() {
         return QRcode;
@@ -151,5 +177,13 @@ public class Mybooking extends Person {
 
     public void setFriends(List friends){
         this.friends = friends;
+    }
+
+    public String getApplytime() {
+        return applytime;
+    }
+
+    public void setApplytime(String applytime) {
+        this.applytime = applytime;
     }
 }

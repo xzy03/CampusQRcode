@@ -47,7 +47,7 @@ public class QueryMybookingServlet extends HttpServlet {
                 dispatcher.forward(request, response);
 //            System.out.println("没有查询到数据！");
 //            response.sendRedirect(redirectUrl);
-            } else if(queryofficialbooking!=null && time.equals(queryofficialbooking.getIntime()) && queryofficialbooking.getPermit().equals("已审核")) {
+            } else if(queryofficialbooking!=null && time.equals(queryofficialbooking.getIntime()) && queryofficialbooking.getPermit().equals("通过")) {
                 request.setAttribute("message", "查询到数据！");
                 request.setAttribute("queryofficialbooking", queryofficialbooking);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/validtime_officialbooking.jsp");

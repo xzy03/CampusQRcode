@@ -29,6 +29,7 @@ public class AddOfficailbookingServlet extends HttpServlet{
         try{
             String id = SM4Util.encrypt(request.getParameter("id"));
             String phoneNumber = SM4Util.encrypt(request.getParameter("phoneNumber"));
+            officialbooking.setApplytime(request.getParameter("applytime"));
             officialbooking.setCampus(request.getParameter("campus"));
             officialbooking.setIntime(request.getParameter("intime"));
             officialbooking.setOuttime(request.getParameter("outtime"));
@@ -59,6 +60,7 @@ public class AddOfficailbookingServlet extends HttpServlet{
             officialbooking_check = officialbookingDao.findByMain(officialbooking.getId(),officialbooking.getIntime());
             if(officialbooking_check!=null){
                 HashMap<String, String> formData = new HashMap<>();
+                formData.put("applytime", officialbooking.getApplytime());
                 formData.put("campus", officialbooking.getCampus());
                 formData.put("intime", officialbooking.getIntime());
                 formData.put("outtime", officialbooking.getOuttime());
@@ -76,6 +78,8 @@ public class AddOfficailbookingServlet extends HttpServlet{
                 formData.put("permit", officialbooking.getPermit());
                 QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Officialbooking\\" + officialbooking.getId() +officialbooking.getIntime()+ ".png");
                 QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Officialbooking\\" + officialbooking.getId() + "invalid.png");
+                QRCodeGenerator.generateQRCode(formData,"C:\\Users\\86173\\IdeaProjects\\mytest\\target\\mytest-1.0-SNAPSHOT\\QRCode_Officialbooking\\" + officialbooking.getId() +officialbooking.getIntime()+ ".png");
+                QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\target\\mytest-1.0-SNAPSHOT\\QRCode_Officialbooking\\" + officialbooking.getId() + "invalid.png");
                 officialbooking.setPermit(officialbooking_check.getPermit());
                 officialbooking.setQRcode("QRCode_Officialbooking/" + officialbooking.getId() +officialbooking.getIntime()+ ".png");
                 officialbooking.setInvalidQRcode("QRCode_Officialbooking/" + officialbooking.getId() + "invalid.png");
@@ -85,8 +89,9 @@ public class AddOfficailbookingServlet extends HttpServlet{
             boolean success = officialbookingDao.addofficialbooking(officialbooking);
             if (success) {
                 System.out.println("添加成功");
-                officialbooking.setPermit("未审核");
+                officialbooking.setPermit("待审");
                 HashMap<String, String> formData = new HashMap<>();
+                formData.put("campus", officialbooking.getCampus());
                 formData.put("campus", officialbooking.getCampus());
                 formData.put("intime", officialbooking.getIntime());
                 formData.put("outtime", officialbooking.getOuttime());
@@ -104,6 +109,8 @@ public class AddOfficailbookingServlet extends HttpServlet{
                 formData.put("permit", officialbooking.getPermit());
                 QRCodeGenerator.generateQRCode(formData, "C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Officialbooking\\" + officialbooking.getId() +officialbooking.getIntime()+ ".png");
                 QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\src\\main\\webapp\\QRCode_Officialbooking\\" + officialbooking.getId() + "invalid.png");
+                QRCodeGenerator.generateQRCode(formData,"C:\\Users\\86173\\IdeaProjects\\mytest\\target\\mytest-1.0-SNAPSHOT\\QRCode_Officialbooking\\" + officialbooking.getId() +officialbooking.getIntime()+ ".png");
+                QRCodeGenerator.generateInvalidQRCode("C:\\Users\\86173\\IdeaProjects\\mytest\\target\\mytest-1.0-SNAPSHOT\\QRCode_Officialbooking\\" + officialbooking.getId() + "invalid.png");
                 officialbooking.setQRcode("QRCode_Officialbooking/" + officialbooking.getId() +officialbooking.getIntime()+ ".png");
                 officialbooking.setInvalidQRcode("QRCode_Officialbooking/" + officialbooking.getId() + "invalid.png");
                 boolean successupdate = officialbookingDao.updateofficialbooking(officialbooking);
