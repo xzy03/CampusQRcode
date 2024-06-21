@@ -14,6 +14,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import dao.AdminDAO;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+
 @WebServlet("/addAdmin")
 public class AddAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -26,13 +30,17 @@ public class AddAdminServlet extends HttpServlet {
         String departmentName = request.getParameter("departmentName");
         String phone = request.getParameter("phone");
         String role = request.getParameter("role");
+        //获取当前时间
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String ptime = date.format(formatter);
 
         boolean success = false;
         String message = "";
         if(isValidPower(currentAdmin,role)) {
             if (isValidPassword(password)) {
                 String encryptedPassword = SM3Util.encrypt(password);
-                Admin admin = new Admin(name, loginName, encryptedPassword, departmentName, phone, role);
+                Admin admin = new Admin(name, loginName, encryptedPassword, departmentName, phone, role,ptime);
                 AdminDAO adminDAO = new AdminDAO();
                 success = adminDAO.addAdmin(admin);
                 if (success) {

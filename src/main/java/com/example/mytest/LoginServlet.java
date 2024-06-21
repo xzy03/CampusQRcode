@@ -42,15 +42,17 @@ public class LoginServlet extends HttpServlet {
             Customer customer = new Customer(username,password);
             ServletContext servletContext = request.getServletContext();
             servletContext.setAttribute("customer",customer);
-            RequestDispatcher rd = request.getRequestDispatcher("question.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("jsp/question.jsp");
             try {
                 rd.forward(request, response);
             } catch (ServletException e) {
                 throw new RuntimeException(e);
             }
+//            response.sendRedirect("/mytest_war_exploded/jsp/question.jsp");
+
         }
         else{
-            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
             try {
                 rd.forward(request, response);
             } catch (ServletException e) {

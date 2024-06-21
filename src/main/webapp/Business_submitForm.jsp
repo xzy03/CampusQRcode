@@ -6,6 +6,18 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="system.Department" %>
+<%@ page import="dao.DeptDAO" %>
+<%@ page import="system.Dept" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%
+    DeptDAO deptDAO = new DeptDAO();
+    List<Dept> depts = deptDAO.getAllDepts();
+    session.setAttribute("depts", depts);
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -176,10 +188,9 @@
                 <tr>
                     <td class="grey1">公务访问部门</td>
                     <td><select name="department" style="width: 100%">
-                        <option value="计算机学院"> 计算机学院</option>
-                        <option value="健行学院"> 健行学院</option>
-                        <option value="容大后勤"> 容大后勤</option>
-                        <option value="信息学院"> 信息学院</option>
+                        <c:forEach var="dept" items="${depts}">
+                            <option value=${dept.getDeptName()}> ${dept.getDeptName()}</option>
+                        </c:forEach>
                     </select></td>
                 </tr>
                 <tr>

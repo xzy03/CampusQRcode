@@ -34,5 +34,7 @@ public class SearchMybookingServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print(new Gson().toJson(bookings));
         out.flush();
+        //打印出当前界面的URL
+        System.out.println("URL: " + request.getRequestURL());
     }
 }

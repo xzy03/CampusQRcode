@@ -27,7 +27,7 @@ public class UpdateAdminServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         if(isValidPower(currentAdmin,oldrole,role)) {
-            Admin admin = new Admin(name, loginName, null, departmentName, phone, role);
+            Admin admin = new Admin(name, loginName, null, departmentName, phone, role,null);
             boolean success = adminDAO.updateAdmin(admin);
             String message = success ? "管理员信息更新成功" : "更新管理员信息时出错";
             out.write(new Gson().toJson(new Result(success, message)));

@@ -1,9 +1,16 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 86173
+  Date: 2024/6/21
+  Time: 22:28
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>管理员登录</title>
+    <title>密码更改</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,16 +62,15 @@
 </head>
 <body>
 <div class="login-container">
-    <h1>管理员登录</h1>
-    <form action="adminLogin" method="post">
-        <input type="text" name="loginName" placeholder="登录名" required>
-        <input type="password" name="password" placeholder="密码" required>
-        <button type="submit">登录</button>
-        <div>${message}</div>
-        <% if (request.getParameter("error") != null) { %>
-        <div class="error">无效的登录名或密码</div>
-        <% } %>
+    <h1>密码更改</h1>
+    <form action="UpdateAdminPassword" method="post">
+        <div>用户名：${admin.getLoginName()}</div>
+        <input type="password" name="change" placeholder="请输入修改的密码" required>
+        <input type="password" name="test" placeholder="请再次输入修改的密码" required>
+        <button type="submit">确认</button>
+        <div>${message_check}</div>
     </form>
 </div>
 </body>
 </html>
+

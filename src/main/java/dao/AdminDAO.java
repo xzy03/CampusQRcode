@@ -1,6 +1,8 @@
 package dao;
 import system.*;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import com.example.mytest.*;
 import jakarta.servlet.ServletException;
@@ -31,7 +33,8 @@ public class AdminDAO implements Dao {
                         rs.getString("password"),
                         rs.getString("department_name"),
                         rs.getString("phone"),
-                        rs.getString("role")
+                        rs.getString("role"),
+                        rs.getString("ptime")
                 );
             }
         } catch (SQLException e) {
@@ -62,7 +65,8 @@ public class AdminDAO implements Dao {
                         rs.getString("password"),
                         rs.getString("department_name"),
                         rs.getString("phone"),
-                        rs.getString("role")
+                        rs.getString("role"),
+                        rs.getString("ptime")
                 );
             }
         } catch (SQLException e) {
@@ -88,6 +92,7 @@ public class AdminDAO implements Dao {
                 admin.setDepartmentName(resultSet.getString("department_name"));
                 admin.setPhone(resultSet.getString("phone"));
                 admin.setRole(resultSet.getString("role"));
+                admin.setPtime(resultSet.getString("ptime"));
                 adminList.add(admin);
             }
             connection.close();
@@ -103,7 +108,7 @@ public class AdminDAO implements Dao {
 
         try {
             conn = getConnection();
-            String sql = "INSERT INTO admin (name, login_name, password, department_name, phone, role) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO admin (name, login_name, password, department_name, phone, role,ptime) VALUES (?, ?, ?, ?, ?, ?,?)";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, admin.getName());
             stmt.setString(2, admin.getLoginName());
@@ -111,6 +116,7 @@ public class AdminDAO implements Dao {
             stmt.setString(4, admin.getDepartmentName());
             stmt.setString(5, admin.getPhone());
             stmt.setString(6, admin.getRole());
+            stmt.setString(7, admin.getPtime());
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0; // 如果有行受影响，则返回 true，否则返回 false
         } catch (SQLException e) {
@@ -145,7 +151,30 @@ public class AdminDAO implements Dao {
             DatabaseUtils.close(conn);
         }
     }
+    public boolean updateAdminPassword(Admin admin) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
 
+        try {
+            conn = getConnection();
+            String sql = "UPDATE admin SET password = ?,ptime = ? WHERE login_name = ?";
+            stmt = conn.prepareStatement(sql);
+            LocalDate date = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String ptime = date.format(formatter);
+            stmt.setString(1, admin.getPassword());
+            stmt.setString(2, ptime);
+            stmt.setString(3, admin.getLoginName());
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            DatabaseUtils.close(stmt);
+            DatabaseUtils.close(conn);
+        }
+    }
     public boolean deleteAdminByLoginName(String loginName) {
         Connection conn = null;
         PreparedStatement stmt = null;

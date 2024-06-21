@@ -7,15 +7,17 @@ public class Admin {
     private String departmentName;
     private String phone;
     private String role;
+    private String ptime;
 
     // 全参构造函数
-    public Admin(String name, String loginName, String password, String departmentName, String phone, String role) {
+    public Admin(String name, String loginName, String password, String departmentName, String phone, String role, String ptime) {
         this.name = name;
         this.loginName = loginName;
         this.password = password;
         this.departmentName = departmentName;
         this.phone = phone;
         this.role = role;
+        this.ptime = ptime;
     }
 
     // 无参构造函数
@@ -69,6 +71,12 @@ public class Admin {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    public String getPtime() {
+        return ptime;
+    }
+    public void setPtime(String ptime) {
+        this.ptime = ptime;
     }
 
     @Override

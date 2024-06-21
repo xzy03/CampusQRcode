@@ -3,5 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <!-- 过滤器定义 -->
+    <filter>
+        <filter-name>LogFilter</filter-name>
+        <filter-class>filter.LogFilter</filter-class>
+    </filter>
+    <!-- 过滤器映射 -->
+    <filter-mapping>
+        <filter-name>LogFilter</filter-name>
+        <url-pattern>/updateOfficialBooking</url-pattern>
+        <url-pattern>/addAdmin</url-pattern>
+        <url-pattern>/addDepartment</url-pattern>
+        <url-pattern>/addDept</url-pattern>
+        <url-pattern>/adminLogin</url-pattern>
+        <url-pattern>/adminLogout</url-pattern>
+        <url-pattern>/deleteAdmin</url-pattern>
+        <url-pattern>/deleteDept</url-pattern>
+        <url-pattern>/searchAdmin</url-pattern>
+        <url-pattern>/searchAppointments</url-pattern>
+        <url-pattern>/searchDept</url-pattern>
+        <url-pattern>/searchMybooking</url-pattern>
+        <url-pattern>/searchOfficialbooking</url-pattern>
+        <url-pattern>/updateAdmin</url-pattern>
+        <url-pattern>/updateDept</url-pattern>
+        <url-pattern>/viewDeptAdmin</url-pattern>
+        <url-pattern>/viewDept</url-pattern>
+    </filter-mapping>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 </web-app>
 
