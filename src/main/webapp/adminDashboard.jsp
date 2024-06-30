@@ -52,7 +52,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>管理员仪表盘</title>
+    <title>系统管理界面</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -114,25 +114,56 @@
 </head>
 <body>
 <div class="sidebar">
-    <h2>仪表盘</h2>
+    <h2>操作列表</h2>
     <ul>
         <li><a href="#information" onclick="showUserInfo()">用户信息</a></li>
         <li><a href="#adminManagement" onclick="showAdminManagement()">管理员管理</a></li>
         <li><a href="#deptManagement" onclick="showDeptManagement()">部门管理</a></li>
         <li><a href="#publicReservationManagement" onclick="showPublicReservationManagement()">公众预约管理</a></li>
         <li><a href="#officialReservationManagement" onclick="showOfficialReservationManagement()">公务预约管理</a></li>
+        <li><a href="#LogManagement" onclick="showLogManagement()">日志管理</a></li>
 
     </ul>
+    <div class="remainingTimeDisplay" id="remainingTimeDisplay" >
+
+    </div>
     <div class="logout-btn">
         <form action="adminLogout" method="post">
             <button type="submit">退出登录</button>
         </form>
     </div>
 </div>
-<div class="content" id="content">
+<div class="content" id="content" >
     <h1>欢迎，<%= admin.getName() %></h1>
 </div>
 <script>
+    let remainingTime = 30 * 60 * 1000; // 30分钟
+
+    function updateRemainingTimeDisplay() {
+        const remainingTimeDisplay = document.getElementById('remainingTimeDisplay');
+        const minutes = Math.floor(remainingTime / (1000 * 60));
+        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+        //remainingTimeDisplay.innerHTML = `剩余时间：<br>` + minutes +  `分钟 ` + seconds + ` 秒`;
+        remainingTimeDisplay.innerHTML = `<h2>剩余时间</h2><ul><li>` + minutes +  `分钟 ` + seconds + ` 秒</li></ul>`;
+    }
+    // 设置定时器，每秒更新一次剩余时间显示
+    setInterval(() => {
+        remainingTime -= 1000;
+        updateRemainingTimeDisplay();
+    }, 1000);
+    // 设置定时器，30分钟后自动调用登出功能
+    setTimeout(function() {
+        fetch('adminLogout', {
+            method: 'POST'
+        })
+            .then(response => {
+                console.log('自动登出成功');
+                window.location.href = 'adminlogin.jsp';
+            })
+            .catch(error => {
+                console.error('自动登出失败:', error);
+            });
+    }, 30 * 60 * 1000);
 
     function showUserInfo() {
         const content = document.getElementById('content');
@@ -148,7 +179,13 @@
 
     function showAdminManagement() {
         const content = document.getElementById('content');
-        content.innerHTML = `
+        if(<%= admin.getRole().equals("审计管理员")%>){
+            content.innerHTML = `
+            <h1>您没有该权限</h1>
+        `;
+        }
+        else {
+            content.innerHTML = `
             <h1>管理员管理</h1>
             <div class="button-group">
                 <button onclick="showAddAdmin()">添加管理员</button>
@@ -158,6 +195,7 @@
                 <button onclick="showViewDeptAdmin()">查看管理员</button>
             </div>
         `;
+        }
     }
 
     function showAddAdmin() {
@@ -168,10 +206,14 @@
             <input type="text" name="name" placeholder="姓名" required><br>
             <input type="text" name="loginName" placeholder="登录名" required><br>
             <input type="password" name="password" placeholder="密码" required><br>
-            <input type="text" name="departmentName" placeholder="所在部门" required><br>
+            <label for="departmentName"></label>
+            <select name="departmentName" id="departmentName" required>
+                <option value="">请选择部门</option>
+            </select><br>
             <input type="text" name="phone" placeholder="电话" required><br>
             <label for="role">角色</label>
             <select name="role" required>
+                <option value="">请选择管理员类别</option>
                 <option value="部门管理员">部门管理员</option>
                 <option value="学校管理员">学校管理员</option>
                 <option value="审计管理员">审计管理员</option>
@@ -180,6 +222,21 @@
         </form>
         <div id="result"></div>
     `;
+
+        fetch('getDeptNames')
+            .then(response => response.json())
+            .then(data => {
+                const departmentSelect = document.getElementById('departmentName');
+                data.forEach(deptName => {
+                    const option = document.createElement('option');
+                    option.value = deptName;
+                    option.textContent = deptName;
+                    departmentSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
 
         const form = document.getElementById('addAdminForm');
         form.addEventListener('submit', function(event) {
@@ -218,10 +275,14 @@
         <form id="updateAdminForm">
             <input type="text" name="loginName" placeholder="登录名" required><br>
             <input type="text" name="name" placeholder="姓名" required><br>
-            <input type="text" name="departmentName" placeholder="所在部门" required><br>
+            <label for="departmentName"></label>
+            <select name="departmentName" id="departmentName" required>
+                <option value="">请选择部门</option>
+            </select><br>
             <input type="text" name="phone" placeholder="电话" required><br>
             <label for="role">角色</label>
             <select name="role" required>
+                <option value="">请选择管理员类别</option>
                 <option value="部门管理员">部门管理员</option>
                 <option value="学校管理员">学校管理员</option>
                 <option value="审计管理员">审计管理员</option>
@@ -230,6 +291,21 @@
         </form>
         <div id="result"></div>
     `;
+
+        fetch('getDeptNames')
+            .then(response => response.json())
+            .then(data => {
+                const departmentSelect = document.getElementById('departmentName');
+                data.forEach(deptName => {
+                    const option = document.createElement('option');
+                    option.value = deptName;
+                    option.textContent = deptName;
+                    departmentSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
 
         const form = document.getElementById('updateAdminForm');
         form.addEventListener('submit', function(event) {
@@ -835,10 +911,11 @@
             } else {
                 valueCell.textContent = item[key];
             }
-
-            row.appendChild(keyCell);
-            row.appendChild(valueCell);
-            detailsTable.appendChild(row);
+            if(key!='QRcode' && key!='InvalidQRcode') {
+                row.appendChild(keyCell);
+                row.appendChild(valueCell);
+                detailsTable.appendChild(row);
+            }
         });
 
         detailsDiv.appendChild(detailsTable);
@@ -1042,12 +1119,6 @@
                 case 'friends':
                     keyCell.textContent = '同行者';
                     break;
-                case 'QRcode':
-                    keyCell.textContent = '二维码路径';
-                    break;
-                case 'InvalidQRcode':
-                    keyCell.textContent = '无效二维码路径';
-                    break;
                 case 'name':
                     keyCell.textContent = '姓名';
                     break;
@@ -1131,8 +1202,10 @@
                     submitButton.textContent = '提交';
                     submitButton.addEventListener('click', function () {
                         // 调用另一个函数处理事务
-                        const itemId = item['id'];
-                        handleTransaction(itemId);
+                        const itemId = item['QRcode'];
+                        const inTime = item['intime'];
+                        handleTransaction(itemId,inTime);
+
                     });
                     rightCell.appendChild(submitButton);
 
@@ -1149,10 +1222,11 @@
                     valueCell.textContent = item[key];
                 }
             }
-
-            row.appendChild(keyCell);
-            row.appendChild(valueCell);
-            detailsTable.appendChild(row);
+            if(key!='QRcode' && key!='InvalidQRcode') {
+                row.appendChild(keyCell);
+                row.appendChild(valueCell);
+                detailsTable.appendChild(row);
+            }
         });
 
         detailsDiv.appendChild(detailsTable);
@@ -1160,9 +1234,8 @@
         resultDiv.innerHTML = '';
         resultDiv.appendChild(detailsDiv);
     }
-
     // handleTransaction 函数
-    function handleTransaction(itemId) {
+    function handleTransaction(itemId,inTime) {
         // 获取选中的单选按钮的值
         const selectedOption = document.querySelector('input[name="leftOption"]:checked').value;
         if(selectedOption === '通过' || selectedOption === '拒绝') {
@@ -1178,6 +1251,7 @@
                 },
                 body: JSON.stringify({
                     id: itemId,
+                    inti: inTime,
                     permit: updatedPermit
                 })
             })
@@ -1246,7 +1320,7 @@
     function showOfficialStatistics() {
         const content = document.getElementById('content');
         content.innerHTML =
-        `<h2>统计预约记录</h2>`+
+            `<h2>统计预约记录</h2>`+
             `<form id="statisticsOfficialForm">`+
             `<input type="month" name="applyMonth" placeholder="申请月度">申请月度<br>`+
             `<input type="month" name="reservationMonth" placeholder="预约月度">预约月度<br>`+
@@ -1259,7 +1333,7 @@
             `</form>`+
 
             `<div id="statisticsOfficialResult"></div>`
-    ;
+        ;
 
         const statisticsOfficialForm = document.getElementById('statisticsOfficialForm');
         statisticsOfficialForm.addEventListener('submit', function(event) {
@@ -1307,6 +1381,130 @@
         });
     }
 
+    function showLogManagement(){
+        const content = document.getElementById('content');
+        if(<%= admin.getRole().equals("审计管理员")%>) {
+            content.innerHTML = `
+        <h1>日志管理</h1>
+        <div class="button-group">
+            <button onclick="showSearchLog()">查询日志</button>
+            <button onclick="showLog()">查看日志</button>
+        </div>
+        <div id="reservationContent"></div>
+    `;
+        }
+        else{
+            content.innerHTML = `
+            <h1>您没有该权限</h1>
+        `;
+        }
+    }
+
+    function showSearchLog() {
+        const content = document.getElementById('content');
+        content.innerHTML = `
+        <h2>查询日志记录</h2>
+        <form id="searchLogForm">
+            <input type="text" name="userName" placeholder="用户名"><br>
+            <input type="text" name="userOperation" placeholder="用户操作"><br>
+            <input type="date" name="startDate" placeholder="起始日期">起始日期<br>
+            <input type="date" name="endDate" placeholder="结束日期">结束日期<br>
+            <button type="submit">查询</button>
+        </form>
+        <div id="searchLogResult"></div>
+    `;
+
+        const searchLogForm = document.getElementById('searchLogForm');
+        searchLogForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const searchParams = new URLSearchParams(formData);
+            fetch('searchLog', {
+                method: 'POST',
+                body: searchParams
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const resultDiv = document.getElementById('searchLogResult');
+                    const table = document.createElement('table');
+                    table.setAttribute('border', '1');
+                    if (data.length === 0) {
+                        const noResultsMessage = document.createElement('p');
+                        noResultsMessage.textContent = '未找到相关日志记录';
+                        resultDiv.innerHTML = '';
+                        resultDiv.appendChild(noResultsMessage);
+                    } else {
+                        const headerRow = document.createElement('tr');
+                        ['用户名', '用户操作', '操作描述', '创建时间'].forEach(headerText => {
+                            const headerCell = document.createElement('th');
+                            headerCell.textContent = headerText;
+                            headerRow.appendChild(headerCell);
+                        });
+                        table.appendChild(headerRow);
+
+                        data.forEach(item => {
+                            const row = document.createElement('tr');
+                            ['uname', 'operation', 'description', 'createdAt'].forEach(key => {
+                                const cell = document.createElement('td');
+                                cell.textContent = item[key];
+                                row.appendChild(cell);
+                            });
+                            table.appendChild(row);
+                        });
+                        resultDiv.innerHTML = '';
+                        resultDiv.appendChild(table);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    }
+
+    function showLog(){
+        const content = document.getElementById('content');
+        const viewLogForm = document.getElementById('viewLogForm');
+        fetch('viewLog', {
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const resultDiv = document.getElementById('viewLogResult');
+                const table = document.createElement('table');
+                table.setAttribute('border', '1');
+                if (data.length === 0) {
+                    const noResultsMessage = document.createElement('p');
+                    noResultsMessage.textContent = '未找到相关日志记录';
+                    resultDiv.innerHTML = '';
+                    resultDiv.appendChild(noResultsMessage);
+                } else {
+                    const headerRow = document.createElement('tr');
+                    ['用户名', '用户操作', '操作描述', '创建时间'].forEach(headerText => {
+                        const headerCell = document.createElement('th');
+                        headerCell.textContent = headerText;
+                        headerRow.appendChild(headerCell);
+                    });
+                    table.appendChild(headerRow);
+
+                    data.forEach(item => {
+                        const row = document.createElement('tr');
+                        ['uname', 'operation', 'description', 'createdAt'].forEach(key => {
+                            const cell = document.createElement('td');
+                            cell.textContent = item[key];
+                            row.appendChild(cell);
+                        });
+                        table.appendChild(row);
+                    });
+                    content.innerHTML = '';
+                    content.appendChild(table);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
 </script>
 </body>

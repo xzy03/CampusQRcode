@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="system.SM3Util" %>
 <!DOCTYPE html>
 <html>
@@ -21,5 +22,10 @@
 <p>原始密码： <%= password %></p>
 <p>加密后密码： <%= SM3Util.encrypt(password) %></p>
 <% } %>
+<%--<c:set var = "number" value = "${4*4}" scope = "session" />--%>
+<%--<c:if test = "${number==15}" var = "result" scope = "session">--%>
+<%--    ${number}<br>--%>
+<%--</c:if><br>--%>
+<%--<c:out value = "${result}"/>--%>
 </body>
 </html>

@@ -5,11 +5,11 @@ import java.util.List;
 import beans.Mybooking;
 import beans.Person;
 import com.google.gson.Gson;
-import system.SM4Util;
 
 import java.text.SimpleDateFormat;
-import system.StatisticsPublic;
-import system.DatabaseUtils;
+import java.lang.reflect.Type;
+import com.google.gson.reflect.TypeToken;
+import system.*;
 
 public class MybookingDaoImpl implements MybookingDao {
     public boolean addmybooking(Mybooking mybooking) {
@@ -290,10 +290,44 @@ public class MybookingDaoImpl implements MybookingDao {
             System.out.println(stmt);
             rs = stmt.executeQuery();
             while (rs.next()) {
+                System.out.println("查到东西");
+                StringBuffer viewid =new StringBuffer(SM4Util.decrypt(rs.getString("visitor_id")));
+                StringBuffer phonenumber =new StringBuffer(SM4Util.decrypt(rs.getString("visitor_phonenumber")));
+                for(int i=1;i<viewid.length() - 1;i++) {
+                    viewid.replace(i, i+1, "*");
+                }
+                for(int i=3;i<phonenumber.length()-4;i++){
+                    phonenumber.replace(i,i+1,"*");
+                }
+                System.out.println(viewid);
+                System.out.println(phonenumber);
+                String modifiedJsonString = null;
+                String fp = rs.getString("follow_person");
+                if(fp!=null){
+                    Gson gson = new Gson();
+                    Type personListType = new TypeToken<List<Person>>() {}.getType();
+                    List<Person> personList = gson.fromJson(fp, personListType);
+                    for (Person person : personList) {
+                        //输出所有的person
+                        StringBuffer modifiedId = new StringBuffer(SM4Util.decrypt(person.getId()));
+                        StringBuffer modifiedPhonenumber = new StringBuffer(SM4Util.decrypt(person.getphoneNumber()));
+                        // 在这里对每个id进行修改
+                        for(int i=1;i<modifiedId.length() - 1;i++) {
+                            modifiedId.replace(i, i+1, "*");
+                        }
+                        for(int i=3;i<modifiedPhonenumber.length()-4;i++){
+                            modifiedPhonenumber.replace(i,i+1,"*");
+                        }
+                        person.setId(modifiedId.toString());
+                        person.setphoneNumber(modifiedPhonenumber.toString());
+                    }
+                    modifiedJsonString = gson.toJson(personList);
+                }
+
                 Mybooking booking = new Mybooking(
                         rs.getString("visitor_name"),
-                        rs.getString("visitor_id"),
-                        rs.getString("visitor_phonenumber"),
+                        viewid.toString(),
+                        phonenumber.toString(),
                         rs.getString("campus"),
                         rs.getString("intime"),
                         rs.getString("outtime"),
@@ -301,7 +335,7 @@ public class MybookingDaoImpl implements MybookingDao {
                         rs.getString("vehicle"),
                         rs.getString("vname"),
                         rs.getInt("friend_number"),
-                        rs.getString("follow_person"),
+                        modifiedJsonString,
                         rs.getString("QRcode"),
                         rs.getString("invalid_QRcode"),
                         rs.getString("applytime")

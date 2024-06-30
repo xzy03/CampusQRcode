@@ -100,7 +100,7 @@ public class AdminLoginServlet extends HttpServlet {
                         message = "欢迎登录校园通行码预约管理系统";
                         request.getSession().setAttribute("message", message);
                         request.getSession().setAttribute("admin", admin);
-                        request.getSession().setAttribute("sucess", "1");
+                        request.getSession().setAttribute("success", "1");
 
                         // 创建一个 Cookie 并设置其过期时间为7天
                         Cookie loginCookie = new Cookie("adminLogin", loginName);

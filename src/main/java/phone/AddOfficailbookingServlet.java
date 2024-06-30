@@ -46,10 +46,13 @@ public class AddOfficailbookingServlet extends HttpServlet{
             String[] friendPhoneNumbers = request.getParameterValues("friendPhoneNumber");
             List<Person> friends = new ArrayList<>();
             for (int i = 0; i < friendNames.length; i++) {
+                //随行人员信息加密
+                String friend_id = SM4Util.encrypt(friendIds[i]);
+                String friend_phoneNumber = SM4Util.encrypt(friendPhoneNumbers[i]);
                 Person friend = new Person();
                 friend.setName(friendNames[i]);
-                friend.setId(friendIds[i]);
-                friend.setphoneNumber(friendPhoneNumbers[i]);
+                friend.setId(friend_id);
+                friend.setphoneNumber(friend_phoneNumber);
                 friends.add(friend);
             }
             officialbooking.setFriends(friends);

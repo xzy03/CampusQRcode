@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.sql.Timestamp;
 
 public class LogDaoImpl implements LogDao{
     public boolean addLog(Auditlog log){
@@ -81,5 +83,54 @@ public class LogDaoImpl implements LogDao{
             ne.printStackTrace();
             return null;
         }
+    }
+    public List<Auditlog> searchLogs(String userName, String userOperation, String startDate, String endDate) {
+        System.out.println("进入searchLogs");
+        List<Auditlog> logs = new ArrayList<>();
+        String sql = "SELECT * FROM log WHERE 1=1";
+
+        if (userName != null && !userName.isEmpty()) {
+            sql += " AND user_name LIKE ?";
+        }
+        if (userOperation != null && !userOperation.isEmpty()) {
+            sql += " AND user_operation LIKE ?";
+        }
+        if (startDate != null && !startDate.isEmpty()) {
+            sql += " AND created_at >= ?";
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            sql += " AND created_at <= ?";
+        }
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            int paramIndex = 1;
+
+            if (userName != null && !userName.isEmpty()) {
+                stmt.setString(paramIndex++, "%" + userName + "%");
+            }
+            if (userOperation != null && !userOperation.isEmpty()) {
+                stmt.setString(paramIndex++, "%" + userOperation + "%");
+            }
+            if (startDate != null && !startDate.isEmpty()) {
+                stmt.setTimestamp(paramIndex++, Timestamp.valueOf(startDate + " 00:00:00"));
+            }
+            if (endDate != null && !endDate.isEmpty()) {
+                stmt.setTimestamp(paramIndex++, Timestamp.valueOf(endDate + " 23:59:59"));
+            }
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Auditlog log = new Auditlog();
+                log.setUname(rs.getString("user_name"));
+                log.setOperation(rs.getString("user_operation"));
+                log.setDescription(rs.getString("user_description"));
+                log.setCreatedAt(rs.getTimestamp("created_at"));
+                logs.add(log);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return logs;
     }
 }

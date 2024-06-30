@@ -116,6 +116,9 @@ public class LogFilter extends HttpFilter {
         else if(uri.contains("/viewDeptAdmin")){
             return "viewDeptAdmin";
         }
+        else if(uri.contains("/searchLog")){
+            return "searchLog";
+        }
         return null;
     }
     public void destroy() {

@@ -52,17 +52,42 @@
 
 <head>
     <title>预约须知</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-4---Table-Fixed-Header.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Footer-Clean.css">
+    <link rel="stylesheet" href="assets/css/Formulario-Farmacia.css">
+    <link rel="stylesheet" href="assets/css/Navbar---App-Toolbar--LG--MD---Mobile-Nav--SM--XS-1.css">
+    <link rel="stylesheet" href="assets/css/Navbar---App-Toolbar--LG--MD---Mobile-Nav--SM--XS.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Sidebar-1-1.css">
+    <link rel="stylesheet" href="assets/css/Sidebar-1.css">
+    <link rel="stylesheet" href="assets/css/Sidebar-Menu-1.css">
+    <link rel="stylesheet" href="assets/css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
-
-<div style="text-align: center">
-    <div style="display: inline-block"><img width="150" src="img/校徽.jpg"></div>
-    <div style="display: inline-block">
-        <p><label style="font-weight: bold;font-size: 20px">进校预约</label></p>
-        <p><label>主管部门:保卫处</label></p>
-        <p><label>联系方式:88320110</label></p>
+<%--<nav class="navbar navbar-light navbar-expand-md navigation-clean">--%>
+<%--<div style="text-align: center">--%>
+<%--    <div style="display: inline-block"><img width="150" src="img/校徽.jpg"></div>--%>
+<%--    <div style="display: inline-block">--%>
+<%--        <p><label style="font-weight: bold;font-size: 20px">进校预约</label></p>--%>
+<%--        <p><label>主管部门:保卫处</label></p>--%>
+<%--        <p><label>联系方式:88320110</label></p>--%>
+<%--    </div>--%>
+<%--</div>--%>
+<%--</nav>--%>
+<nav class="navbar navbar-light navbar-expand-md navigation-clean">
+    <div class="container"><a class="navbar-brand" href="index.jsp">📖 进校预约<br></a>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item" role="presentation"></li>
+            </ul>
+        </div>
     </div>
-</div>
+</nav>
 <br>
 <table border="1" style="margin: 0px auto" width="1000px" >
     <tr><td  class="center boldblack"colspan="3">申请步骤</td></tr>

@@ -22,6 +22,7 @@ public class UpdateOfficialBookingServlet extends HttpServlet {
         JsonObject jsonObject = new Gson().fromJson(request.getReader(), JsonObject.class);
         String id = jsonObject.get("id").getAsString();
         String permit = jsonObject.get("permit").getAsString();
+        String inti = jsonObject.get("inti").getAsString();
         System.out.println(id);
         System.out.println(permit);
         Connection conn = null;
@@ -31,12 +32,14 @@ public class UpdateOfficialBookingServlet extends HttpServlet {
         try {
             OfficialbookingDaoImpl officialbookingDaoImpl = new OfficialbookingDaoImpl();
             conn = officialbookingDaoImpl.getConnection();
-            String sql = "UPDATE officialbooking SET permit = ? WHERE visitor_id = ?";
+            String sql = "UPDATE officialbooking SET permit = ? WHERE visitor_id = ? AND intime = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, permit);
             stmt.setString(2, id);
+            stmt.setString( 3,inti);
             System.out.println(stmt);
             updateSuccess = stmt.executeUpdate() > 0;
+            System.out.println(updateSuccess);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
