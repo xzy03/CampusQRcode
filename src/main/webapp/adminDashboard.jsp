@@ -62,13 +62,13 @@
         }
         .sidebar {
             width: 250px;
-            background-color: #343a40;
+            background-color: lightgrey;
             color: white;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
         .sidebar h2 {
-            text-align: center;
+            text-align: left;
         }
         .sidebar ul {
             list-style-type: none;
@@ -76,7 +76,7 @@
         }
         .sidebar li {
             padding: 10px;
-            text-align: center;
+            text-align: left;
         }
         .sidebar a {
             color: white;
@@ -84,11 +84,11 @@
             display: block;
         }
         .sidebar a:hover {
-            background-color: #495057;
+            background-color: darkgrey;
         }
         .logout-btn {
             margin-top: 20px;
-            text-align: center;
+            text-align: left;
         }
         .logout-btn button {
             padding: 10px 20px;
@@ -1403,16 +1403,16 @@
     function showSearchLog() {
         const content = document.getElementById('content');
         content.innerHTML = `
-        <h2>查询日志记录</h2>
-        <form id="searchLogForm">
-            <input type="text" name="userName" placeholder="用户名"><br>
-            <input type="text" name="userOperation" placeholder="用户操作"><br>
-            <input type="date" name="startDate" placeholder="起始日期">起始日期<br>
-            <input type="date" name="endDate" placeholder="结束日期">结束日期<br>
-            <button type="submit">查询</button>
-        </form>
-        <div id="searchLogResult"></div>
-    `;
+<h2>查询日志记录</h2>
+<form id="searchLogForm">
+<input type="text" name="userName" placeholder="用户名"><br>
+<input type="text" name="userOperation" placeholder="用户操作"><br>
+<input type="date" name="startDate" placeholder="起始日期">起始日期<br>
+<input type="date" name="endDate" placeholder="结束日期">结束日期<br>
+<button type="submit">查询</button>
+</form>
+<div id="searchLogResult"></div>
+`;
 
         const searchLogForm = document.getElementById('searchLogForm');
         searchLogForm.addEventListener('submit', function(event) {
@@ -1452,8 +1452,12 @@
                             });
                             table.appendChild(row);
                         });
+                        const scrollDiv = document.createElement('div');
+                        scrollDiv.style.height = '600px'; // Adjust height as needed
+                        scrollDiv.style.overflowY = 'scroll';
+                        scrollDiv.appendChild(table);
                         resultDiv.innerHTML = '';
-                        resultDiv.appendChild(table);
+                        resultDiv.appendChild(scrollDiv);
                     }
                 })
                 .catch(error => {
@@ -1462,7 +1466,8 @@
         });
     }
 
-    function showLog(){
+
+    function showLog() {
         const content = document.getElementById('content');
         const viewLogForm = document.getElementById('viewLogForm');
         fetch('viewLog', {
@@ -1497,14 +1502,22 @@
                         });
                         table.appendChild(row);
                     });
+
+                    const scrollDiv = document.createElement('div');
+                    scrollDiv.style.height = '800px'; // Adjust height as needed
+                    scrollDiv.style.overflowY = 'scroll';
+                    scrollDiv.appendChild(table);
+
                     content.innerHTML = '';
-                    content.appendChild(table);
+                    content.appendChild(scrollDiv);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }
+
+
 
 </script>
 </body>

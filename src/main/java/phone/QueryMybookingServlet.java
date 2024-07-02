@@ -28,6 +28,11 @@ public class QueryMybookingServlet extends HttpServlet {
         String action = request.getParameter("submitAction");
         String id = SM4Util.encrypt(request.getParameter("id-card"));
         String phoneNumber = SM4Util.encrypt(request.getParameter("phone"));
+        System.out.println("id:"+id);
+        System.out.println(request.getParameter("id-card"));
+        System.out.println("phone:"+phoneNumber);
+        System.out.println(request.getParameter("phone"));
+        System.out.println(action);
         if ("查看二维码".equals(action)) {
             // 查询按钮被点击，执行查询逻辑
             MybookingDao mybookingDao = new MybookingDaoImpl();
@@ -36,8 +41,14 @@ public class QueryMybookingServlet extends HttpServlet {
             Officialbooking queryofficialbooking;
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String time = sdf.format(new java.util.Date());
+            System.out.println("进入查询");
+            System.out.println("id:"+id);
+            System.out.println("name:"+request.getParameter("name"));
+            System.out.println("phone:"+phoneNumber);
             querymybooking = mybookingDao.query_find(id, request.getParameter("name"), phoneNumber);
+            System.out.println("公众预约");
             queryofficialbooking = officialbookingDao.query_find(id, request.getParameter("name"), phoneNumber);
+            System.out.println("公务预约");
             if (querymybooking == null && queryofficialbooking==null) {
 //            String redirectUrl = request.getServletContext().getContextPath() + "/yanzhengma.jsp"; // 你原来的页面的URL
                 // 如果没有查询到数据，可以做一些处理，比如返回错误信息或重定向到错误页面
@@ -84,7 +95,10 @@ public class QueryMybookingServlet extends HttpServlet {
             OfficialbookingDao officialbookingDao = new OfficialbookingDaoImpl();
             ArrayList<Mybooking> mybookings;
             ArrayList<Officialbooking> officialbookings;
-
+            System.out.println("进入查询历史记录");
+            System.out.println("id:"+id);
+            System.out.println("name:"+request.getParameter("name"));
+            System.out.println("phone:"+phoneNumber);
             mybookings = mybookingDao.findAllQueryMybooking(id, request.getParameter("name"), phoneNumber);
             officialbookings = officialbookingDao.findAllQueryOfficialbooking(id, request.getParameter("name"), phoneNumber);
             request.setAttribute("mybookings", mybookings);

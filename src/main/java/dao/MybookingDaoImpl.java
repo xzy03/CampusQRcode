@@ -51,12 +51,15 @@ public class MybookingDaoImpl implements MybookingDao {
     public Mybooking findByMain(String id, String intime) {
         Mybooking mybooking = new Mybooking();
         String sql = "select * from mybooking where visitor_id=? and intime=?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             pstmt.setString(2, intime);
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
             if (rs.next()) {
                 mybooking.setApplytime(rs.getString("applytime"));
                 mybooking.setCampus(rs.getString("campus"));
@@ -82,20 +85,36 @@ public class MybookingDaoImpl implements MybookingDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }finally {
+            try {
+                pstmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return mybooking;
     }
     public Mybooking query_find(String id, String name, String phone) {
         Mybooking mybooking = new Mybooking();
+        System.out.println("1111");
         String sql = "select * from mybooking where visitor_id=? and visitor_name=? and visitor_phoneNumber=?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            System.out.println("66666");
+            conn = getConnection();
+            System.out.println("77777");
+            pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pstmt.setString(1, id);
             pstmt.setString(2, name);
             pstmt.setString(3, phone);
-            ResultSet rs = pstmt.executeQuery();
+            System.out.println("555555");
+            rs = pstmt.executeQuery();
             //将当前的时间转换为字符串2024-06-04这样的格式
+            System.out.println("3333");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String time = sdf.format(new java.util.Date());
             System.out.println(time);
@@ -106,7 +125,9 @@ public class MybookingDaoImpl implements MybookingDao {
             if(!havecode){
                 return null;
             }
+            System.out.println("44444");
             rs.previous();
+            System.out.println("2222");
             while(rs.next()&&!time.equals(rs.getString("intime"))){
                 boolean success = time.equals(rs.getString("intime"));
                 System.out.println(success);
@@ -156,19 +177,30 @@ public class MybookingDaoImpl implements MybookingDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }finally {
+            try {
+                pstmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return mybooking;
     }
     public ArrayList<Mybooking> findAllQueryMybooking(String id, String name, String phone) {
         ArrayList<Mybooking> mybookings = new ArrayList<>();
         String sql = "select * from mybooking where visitor_id=? and visitor_name=? and visitor_phoneNumber=?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             pstmt.setString(2, name);
             pstmt.setString(3, phone);
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
             while (rs.next()) {
                 String id1 = SM4Util.decrypt(rs.getString("visitor_id"));
                 String phone1 = SM4Util.decrypt(rs.getString("visitor_phoneNumber"));
@@ -195,6 +227,14 @@ public class MybookingDaoImpl implements MybookingDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }finally {
+            try {
+                pstmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return mybookings;
     }

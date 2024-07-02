@@ -11,13 +11,18 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-image: linear-gradient(90deg, cyan, purple);
+            background-size: 400%;
+            animation: myanimation 10s infinite;
+            /*background-size: cover;*/
         }
         .login-container {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /*background: url("img/img_1.png") no-repeat center center fixed;*/
+            /*opacity: 0.5;*/
         }
         .login-container h1 {
             text-align: center;
@@ -50,6 +55,17 @@
             color: red;
             text-align: center;
             margin-bottom: 20px;
+        }
+        @keyframes myanimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
     </style>
 </head>

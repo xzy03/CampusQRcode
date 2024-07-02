@@ -58,12 +58,15 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
     public Officialbooking findByMain(String id, String intime) {
         Officialbooking officialbooking = new Officialbooking();
         String sql = "select * from officialbooking where visitor_id=? and intime=?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             pstmt.setString(2, intime);
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
             if (rs.next()) {
                 officialbooking.setApplytime(rs.getString("applytime"));
                 officialbooking.setCampus(rs.getString("campus"));
@@ -94,6 +97,14 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }finally {
+            try {
+                pstmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return officialbooking;
     }
@@ -144,13 +155,16 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
     public Officialbooking query_find(String id, String name, String phone) {
         Officialbooking officialbooking = new Officialbooking();
         String sql = "select * from officialbooking where visitor_id=? and visitor_name=? and visitor_phoneNumber=?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pstmt.setString(1, id);
             pstmt.setString(2, name);
             pstmt.setString(3, phone);
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
             //将当前的时间转换为字符串2024-06-04这样的格式
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String time = sdf.format(new java.util.Date());
@@ -220,6 +234,14 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }finally {
+            try {
+                pstmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return officialbooking;
     }
@@ -227,13 +249,16 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
     public ArrayList<Officialbooking> findAllQueryOfficialbooking(String id, String name, String phone) {
         ArrayList<Officialbooking> officialbookings = new ArrayList<>();
         String sql = "select * from officialbooking where visitor_id=? and visitor_name=? and visitor_phoneNumber=?";
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
         try {
-            Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
+            conn = getConnection();
+            pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             pstmt.setString(2, name);
             pstmt.setString(3, phone);
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
             while (rs.next()) {
                 String id1 = SM4Util.decrypt(rs.getString("visitor_id"));
                 String phone1 = SM4Util.decrypt(rs.getString("visitor_phoneNumber"));
@@ -264,6 +289,14 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }finally {
+            try {
+                pstmt.close();
+                conn.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return officialbookings;
     }
@@ -421,10 +454,12 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
         if (department != null && !department.isEmpty()) {
             sql.append(" AND department LIKE ?");
         }
-
-        try (Connection conn = DatabaseUtils.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
-
+        Connection conn=null;
+        PreparedStatement stmt=null;
+        ResultSet rs=null;
+        try {
+            conn = DatabaseUtils.getConnection();
+            stmt = conn.prepareStatement(sql.toString());
             int index = 1;
             if (applyMonth != null && !applyMonth.isEmpty()) {
                 stmt.setString(index++, applyMonth+"-%");
@@ -451,7 +486,8 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
                 department="全部";
             }
             System.out.println(stmt);
-            try (ResultSet rs = stmt.executeQuery()) {
+            try{
+                rs = stmt.executeQuery();
                 while (rs.next()) {
                     StatisticsOfficial stat = new StatisticsOfficial();
                     stat.setApplyMonth(applyMonth);
@@ -462,9 +498,13 @@ public class OfficialbookingDaoImpl implements OfficialbookingDao {
                     stat.setPersonCount(rs.getInt("personCount"));
                     statisticsPublicList.add(stat);
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            Dao.close(rs, stmt, conn);
         }
 
         return statisticsPublicList;

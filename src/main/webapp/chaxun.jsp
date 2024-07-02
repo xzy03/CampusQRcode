@@ -23,11 +23,10 @@
     <link rel="stylesheet" href="styles3.css">
 </head>
 <body>
-
 <div class="container">
     <div class="booking-list" id="mybookings">
-        <c:forEach var="booking" items="${mybookings}">
 
+        <c:forEach var="booking" items="${mybookings}">
             <div class="booking-item">
                 <div class="avatar">社会</div>
                 <div class="details">
