@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 获取输入字段和错误消息元素
-    const phnumberInput = document.getElementById('phnumber');
-    const idcardInput = document.getElementById('idcard');
+    const phnumberInput = document.getElementById('phoneNumber');
+    const idcardInput = document.getElementById('id');
     const phnumberError = document.getElementById('phnumberError');
     const idcardError = document.getElementById('idcardError');
 
@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return regex.test(phoneNumber);
     }
 
-    function validateIdCard(idCardNumber) {
+    function validateIdCard(id) {
         // 示例：简单的中国身份证号验证（15位或18位数字，最后可能是X或x）
         const regex = /^\d{15}|\d{17}[\dXx]$/;
-        return regex.test(idCardNumber);
+        return regex.test(id);
     }
 
     // 为输入字段添加事件监听器

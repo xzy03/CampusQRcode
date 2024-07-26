@@ -1,13 +1,12 @@
 <%--
   Created by IntelliJ IDEA.
-  User: 69472
+  User: 章鱼哥
   Date: 2024/5/28
   Time: 10:55
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-
 <style>
     .center{
         text-align :center;
@@ -53,12 +52,10 @@
         background-color: #4682B4; /* Blue */
     }
 </style>
-
 <head>
     <title>预约须知</title>
 </head>
 <body>
-
 <div style="text-align: center;">
     <div style="display: inline-block; vertical-align: middle; margin-right: 30px;">
         <img style="vertical-align: middle;" width="100" src="img/校徽.jpg">
@@ -69,7 +66,6 @@
         <p><label style="vertical-align: middle;font-size: 30px">联系方式:88320110</label></p>
     </div>
 </div>
-
 <br>
 <table border="1" style="margin: 0px auto" width="1000px" >
     <tr><td  class="center boldblack"colspan="3">申请步骤</td></tr>
@@ -90,7 +86,6 @@
             <a href="/mytest_war_exploded/yanzhengma.jsp" class="boldblue">
                 http://www.xwryjx.zjut.edu.cn/Pass Code/
             </a>
-
         </td>
     </tr>
 </table>
@@ -161,18 +156,9 @@
     </tr>
 </table>
     <br>
-
 <div class="container">
-
         <button class="button button1" onclick="location.href='submitForm.jsp'">社会公众预约</button>
         <button class="button button2" onclick="location.href='Business_submitForm.jsp'">公务预约</button>
-
-
 </div>
-
-
-
-
-
 </body>
 </html>

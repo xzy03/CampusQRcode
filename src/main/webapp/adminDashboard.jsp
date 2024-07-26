@@ -68,7 +68,8 @@
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
         .sidebar h2 {
-            text-align: left;
+            text-align: center;
+            font-size: 35px;
         }
         .sidebar ul {
             list-style-type: none;
@@ -76,19 +77,24 @@
         }
         .sidebar li {
             padding: 10px;
-            text-align: left;
+            text-align: center;
+            font-weight: bold;
         }
         .sidebar a {
             color: white;
             text-decoration: none;
             display: block;
+            font-size: 24px;
         }
         .sidebar a:hover {
             background-color: darkgrey;
         }
+        .sidebar a.small-text{
+            font-size: 18px;
+        }
         .logout-btn {
             margin-top: 20px;
-            text-align: left;
+            text-align: center;
         }
         .logout-btn button {
             padding: 10px 20px;
@@ -99,16 +105,282 @@
             border-radius: 4px;
             cursor: pointer;
         }
+        .logout-btn button.password {
+            background-color: blue;
+        }
         .content {
             flex: 1;
             padding: 20px;
             background-color: #f4f4f4;
+            /*background-image: url('assets/img/QQ截图20210529230642.jpg'); !* 替换为你的图片路径 *!*/
+            background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNzQ3MDB8MHwxfGFsbHwxfHx8fHx8fHwxNjM1NTMzMzI2&ixlib=rb-1.2.1&q=80&w=1080');
+            background-size: cover; /* 使图片覆盖整个背景 */
+            background-position: center; /* 居中显示图片 */
+            background-repeat: no-repeat; /* 防止图片重复 */
+
         }
+
         .button-group button {
             padding: 10px 20px;
             font-size: 16px;
             margin: 5px;
             cursor: pointer;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .simple-form{
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 20px auto;
+            text-align: left;
+        }
+
+        .user-info {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .user-info p {
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .user-info p span {
+            font-weight: bold;
+        }
+
+        main.table {
+            width: 82vw;
+            height: 60vh;
+            background-color: #fff5;
+            box-shadow: 0 8px 16px #0005;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .header {
+            width: 100%;
+            height: 10%;
+            background-color: #fff4;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .input-group {
+            width: 35%;
+            height: 50%;
+            background-color: #fff5;
+            padding: 0 20px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: .2s;
+            margin-right: 100px;
+        }
+        .header .input-group:hover {
+            width: 45%;
+            background-color:#fff8;
+            box-shadow:0 5px 40px #0002;
+        }
+        .header .input-group img {
+            width: 20px;
+            height: 20px;
+        }
+        .header .input-group input {
+            width: 100%;
+            background-color:transparent;
+        }
+        .header .input-group button {
+            width: 120%;
+        }
+        .shell {
+            width: 95%;
+            max-height: calc(90% - 25px);
+            background-color: #fffb;
+            margin: 8px auto;
+            border-radius: 10px;
+            overflow: auto;
+        }
+        .shell::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        table {
+            width: 100%;
+        }
+
+        td img {
+            width: 36px;
+            height: 36px;
+            margin-right: 10px;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        table,
+        th,
+        td {
+            border-collapse: collapse;
+            padding: 20px;
+            text-align: left;
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            left: 0;
+            background-color: #d5d1defe;
+            cursor: pointer;
+        }
+
+        /*偶数行背景色 */
+        tbody tr:nth-child(even){
+            background-color:#0000000b;
+        }
+
+        tbody tr:hover {
+            background-color: #add8e6 !important;
+        }
+
+        .button {
+            padding: 5px 5px;
+            border-radius: 40px;
+            text-align: left;
+        }
+        tr:nth-child(4n) .button {
+            background-color:#86e49d;
+            color:#006b21;
+        }
+        tr:nth-child(4n-1) .button {
+            background-color:#86e49d;
+            color:#006b21;
+        }
+        tr:nth-child(4n+1) .button {
+            background-color:#86e49d;
+            color:#006b21;
+        }
+        tr:nth-child(4n+2) .button {
+            background-color:#86e49d;
+            color:#006b21;
+        }
+
+        /* 样式表单 */
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        form input {
+            flex: 0 1 calc(25% - 10px);  /*每行四列，间距为10px */
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form input.three{
+            flex: 0 1 calc(33% - 10px);  /*每行三列，间距为10px */
+        }
+
+        form input.two{
+            flex: 0 1 calc(50% - 10px);  /*每行两列，间距为10px */
+        }
+
+        form input.five{
+            flex: 0 1 calc(20% - 10px);  /*每行五列，间距为10px */
+        }
+
+        form select {
+            flex: 0 1 calc(25% - 10px);  /*每行四列，间距为10px */
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form select.three{
+            flex: 0 1 calc(33% - 10px);  /*每行三列，间距为10px */
+        }
+
+        form select.two{
+            flex: 0 1 calc(50% - 10px);  /*每行两列，间距为10px */
+        }
+
+        form select.five{
+            flex: 0 1 calc(20% - 10px);  /*每行五列，间距为10px */
+        }
+
+        form option{
+            flex: 0 1 calc(25% - 10px);  /*每行四列，间距为10px */
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form option.three{
+            flex: 0 1 calc(33% - 10px);  /*每行三列，间距为10px */
+        }
+
+        form option.two{
+            flex: 0 1 calc(50% - 10px);  /*每行两列，间距为10px */
+        }
+
+        form option.five{
+            flex: 0 1 calc(20% - 10px);  /*每行五列，间距为10px */
+        }
+
+        form button {
+            flex: 0 1 100%; /* 按钮占据一整行 */
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        form button.four {
+            flex: 0 1 calc(25% - 10px);  /*每行四列，间距为10px */
+        }
+
+        button {
+            background-color: #4CAF50; /* 绿色背景 */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049; /* 鼠标悬停时的颜色 */
         }
     </style>
 </head>

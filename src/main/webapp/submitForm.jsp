@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: 86173
+  User: 章鱼哥
   Date: 2024/5/27
   Time: 15:07
   To change this template use File | Settings | File Templates.
@@ -14,18 +14,129 @@
         <h1 style="font-size: 70px">社会公众预约申请</h1>
     </div>
     <script type="text/javascript">
+        // 定义验证函数
+        function validatePhoneNumber(phoneNumber) {
+            // 示例：中国手机号验证（11位数字，以1开头）
+            const regex = /^1[3-9]\d{9}$/;
+            return regex.test(phoneNumber);
+        }
+
+        function validateIdCard(id) {
+            // 示例：简单的中国身份证号验证（15位或18位数字，最后可能是X或x）
+            const regex = /^\d{15}|\d{17}[\dXx]$/;
+            return regex.test(id);
+        }
+
+        // 为输入字段添加事件监听器
+        function addValidationListeners() {
+            const friendPhoneNumberInputs = document.querySelectorAll('input[id="friendPhoneNumber"]');
+            const friendIdCardInputs = document.querySelectorAll('input[id="friendId"]');
+            const pnumberInput = document.getElementById('pnumber');
+            console.log(friendPhoneNumberInputs);
+            console.log(friendIdCardInputs);
+            friendPhoneNumberInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const phoneNumber = this.value;
+                    if (validatePhoneNumber(phoneNumber) || pnumberInput.value == 0) {
+                        this.setCustomValidity('');
+                    } else {
+                        this.setCustomValidity('请输入正确的手机号');
+                    }
+                });
+            });
+
+            friendIdCardInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const idCardNumber = this.value;
+                    if (validateIdCard(idCardNumber) || pnumberInput.value == 0) {
+                        this.setCustomValidity('');
+                    } else {
+                        this.setCustomValidity('请输入正确的身份证号');
+                    }
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取输入字段和错误消息元素
+            const phnumberInput = document.getElementById('phoneNumber');
+            const idcardInput = document.getElementById('id');
+            const friendphnumberInput = document.getElementById('friendPhoneNumber');
+            const friendidcardInput = document.getElementById('friendId');
+            const pnumberInput = document.getElementById('pnumber');
+            const form = document.getElementById('myForm');
+            console.log(phnumberInput);
+            console.log(idcardInput);
+
+            // 为输入字段添加事件监听器
+            phnumberInput.addEventListener('input', function() {
+                const phoneNumber = this.value;
+                if (validatePhoneNumber(phoneNumber)) {
+                    this.setCustomValidity(''); // 清除自定义错误消息
+                } else {
+                    this.setCustomValidity('请输入正确的手机号'); // 设置自定义错误消息
+                }
+            });
+
+            idcardInput.addEventListener('input', function() {
+                const idCardNumber = this.value;
+                if (validateIdCard(idCardNumber)) {
+                    this.setCustomValidity(''); // 清除自定义错误消息
+                } else {
+                    this.setCustomValidity('请输入正确的身份证号'); // 设置自定义错误消息
+                }
+            });
+
+            friendphnumberInput.addEventListener('input', function() {
+                const phoneNumber = this.value;
+                if (validatePhoneNumber(phoneNumber) || pnumberInput.value == 0) {
+                    this.setCustomValidity(''); // 清除自定义错误消息
+                } else {
+                    this.setCustomValidity('请输入正确的手机号'); // 设置自定义错误消息
+                }
+            });
+
+            friendidcardInput.addEventListener('input', function() {
+                const idCardNumber = this.value;
+                if (validateIdCard(idCardNumber) || pnumberInput.value == 0) {
+                    this.setCustomValidity(''); // 清除自定义错误消息
+                } else {
+                    this.setCustomValidity('请输入正确的身份证号'); // 设置自定义错误消息
+                }
+            });
+
+            // 表单提交事件监听
+            form.addEventListener('submit', function(event) {
+                // 手动触发每个字段的验证
+                phnumberInput.reportValidity();
+                idcardInput.reportValidity();
+                friendphnumberInput.reportValidity();
+                friendidcardInput.reportValidity();
+                // 验证所有人员的输入
+                const allInputsValid = Array.from(document.querySelectorAll('input[id="friendPhoneNumber"], input[id="friendId"]'))
+                    .every(input => input.checkValidity());
+
+                // 如果有任何字段无效，则阻止表单提交
+                if (!phnumberInput.checkValidity() || !idcardInput.checkValidity() || !friendphnumberInput.checkValidity() || !friendidcardInput.checkValidity() || !allInputsValid) {
+                    event.preventDefault(); // 阻止表单提交
+                }
+            });
+            // 调用函数以为当前页面上的所有人员输入字段添加验证监听器
+            addValidationListeners();
+        });
+
         function addFriend() {
             var friendList = document.getElementById('friendList');
             var newFriend = document.createElement('div');
             newFriend.className = 'friend-item';
             newFriend.innerHTML =
-                '<div><input type="text" name="friendName" placeholder="姓名" style="width: 98%;"></div>' +
-                '<div><input type="text" name="friendId" placeholder="身份证号" style="width: 98%;"></div>' +
-                '<div><input type="text" name="friendPhoneNumber" placeholder="手机号" style="width: 98%;"></div>' +
+                '<div><input type="text" name="friendName" placeholder="姓名" style="width: 98%;" required></div>' +
+                '<div><input type="text" name="friendId" id="friendId" placeholder="身份证号" style="width: 98%;" required></div>' +
+                '<div><input type="text" name="friendPhoneNumber" id="friendPhoneNumber" placeholder="手机号" style="width: 98%;" required></div>' +
                 '<button style="font-size: 25px" type="button" onclick="removeFriend(this)">删除</button>';
             friendList.appendChild(newFriend);
+            addValidationListeners(); // 添加新的验证监听器
         }
-
         function removeFriend(button) {
             var friendList = document.getElementById('friendList');
             friendList.removeChild(button.parentNode);
@@ -100,7 +211,7 @@
 <div style="text-align:center;">
     <%-- 定义表单提交用户数据 --%>
         <center>
-        <form action="AddMybookingServlet" method="post">
+        <form action="AddMybookingServlet" method="post" id="myForm">
             <table>
                 <thead>
                 <tr>
@@ -120,7 +231,6 @@
                     <input type="radio" name="campus" value="莫干山校区"> 莫干山校区
                 </td>
                 </tr>
-
                 <tr>
                     <td rowspan="2" class="grey1">预约进校时间</td>
                     <td>
@@ -134,7 +244,7 @@
                 </tr>
                 <tr>
                     <td class="grey1">所在单位</td>
-                    <td><input type="text" name="unit" style="width: 98%"></td>
+                    <td><input type="text" name="unit" style="width: 98%" required></td>
                 </tr>
                 </tbody>
             </table>
@@ -146,19 +256,19 @@
                 </tr>
                 </thead>
                 <tbody>
-
-
                 <tr>
                     <td class="grey1">姓名</td>
-                    <td><input type="text" name="name" style="width: 98%"></td>
+                    <td><input type="text" name="name" style="width: 98%" required></td>
                 </tr>
                 <tr>
                     <td class="grey1">身份证号</td>
-                    <td><input type="text" name="id" placeholder="请输入身份证号" style="width: 98%"></td>
+                    <td><input type="text" name="id" id="id" placeholder="请输入身份证号" style="width: 98%" required></td>
+<%--                    <span id="idcardError" style="color: red;"></span>--%>
                 </tr>
                 <tr>
                     <td class="grey1">手机号</td>
-                    <td><input type="text" name="phoneNumber" placeholder="请输入手机号" style="width: 98%"></td>
+                    <td><input type="text" name="phoneNumber" id="phoneNumber" placeholder="请输入手机号" style="width: 98%" required></td>
+<%--                    <span id="phnumberError" style="color: red;"></span>--%>
                 </tr>
                 <tr>
                     <td class="grey1">交通方式</td>
@@ -175,16 +285,16 @@
                 </tr>
                 <tr>
                     <td class="grey1">来访人数</td>
-                    <td><input type="number" name="pnumber" style="width: 98%"> </td>
+                    <td><input type="number" name="pnumber" id="pnumber" style="width: 98%" required> </td>
                 </tr>
                 <tr>
                     <td class="grey1">陪同人员</td>
                     <td>
                         <div id="friendList">
                             <div class="friend-item">
-                                <div><input type="text" name="friendName" placeholder="姓名" style="width: 98%;"></div>
-                                <div><input type="text" name="friendId" placeholder="身份证号" style="width: 98%;"></div>
-                                <div><input type="text" name="friendPhoneNumber" placeholder="手机号" style="width: 98%;"></div>
+                                <div><input type="text" name="friendName" placeholder="姓名" style="width: 98%;" required></div>
+                                <div><input type="text" name="friendId" id="friendId" placeholder="身份证号" style="width: 98%;" required></div>
+                                <div><input type="text" name="friendPhoneNumber" id="friendPhoneNumber" placeholder="手机号" style="width: 98%;" required></div>
                                 <button style="font-size: 25px" type="button" onclick="addFriend()">新增</button>
                             </div>
                         </div>
@@ -197,8 +307,6 @@
         </form>
         </center>
 </div>
-
-<script src="validate.js"></script>
 </body>
 </html>
 

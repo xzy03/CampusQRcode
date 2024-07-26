@@ -1,19 +1,14 @@
 <%@ page import="system.SM4Util" %>
 <%--
   Created by IntelliJ IDEA.
-  User: 69472
+  User: 章鱼哥
   Date: 2024/6/5
   Time: 23:20
   To change this template use File | Settings | File Templates.
 --%>
 
-
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%--<%@ taglib uri="http://jakarta.apache.org/taglibs/standard/permittedTaglibs" prefix="c" %>--%>
-<%--<%@ taglib uri="http://jakarta.apache.org/taglibs/standard/scriptfree" prefix="c" %>--%>
-
 
 <html>
 <head>
@@ -33,9 +28,7 @@
                     <p class="name"> 姓名：${booking.name}</p>
                     <p class="intime">进时间：${booking.intime}</p>
                     <p class="campus">院校：${booking.campus}</p>
-
                 </div>
-
                 <div class="arrow">&#9654;</div>
             </div>
 
@@ -49,7 +42,6 @@
                 <p>单位: ${booking.unit}</p>
                 <p>交通工具: ${booking.vehicle}</p>
                 <p>车牌号: ${booking.vname}</p>
-<%--                <p>同行人员: ${booking.number}</p>--%>
                 <div class="booking-list" id="officialfriends">
                     <div class="booking-item">
                         <div class="details">
@@ -60,17 +52,6 @@
                     <div class="extra-details" style="display:none;">
                         <c:forEach var="friend" items="${booking.friends}">
                             <div class="booking-item">
-<%--                                <%--%>
-<%--                                    StringBuffer modifiedId = new StringBuffer(SM4Util.decrypt();--%>
-<%--                                    StringBuffer modifiedPhonenumber = new StringBuffer(SM4Util.decrypt());--%>
-<%--                                    // 在这里对每个id进行修改--%>
-<%--                                    for(int i=1;i<modifiedId.length() - 1;i++) {--%>
-<%--                                        modifiedId.replace(i, i+1, "*");--%>
-<%--                                    }--%>
-<%--                                    for(int i=3;i<modifiedPhonenumber.length()-4;i++){--%>
-<%--                                        modifiedPhonenumber.replace(i,i+1,"*");--%>
-<%--                                    } --%>
-<%--                                %>--%>
                                 <p>同行人员姓名：${friend.name}</p>
                                 <p>同行人员身份证：${SM4Util.decrypt(friend.id)}</p>
                                 <p>同行人员电话号码：${SM4Util.decrypt(friend.phoneNumber)}</p>
@@ -91,9 +72,7 @@
                     <p class="name"> 姓名：${officialbooking.name}</p>
                     <p class="intime">进时间：${officialbooking.intime}</p>
                     <p class="campus">校区：${officialbooking.campus}</p>
-
                 </div>
-
                 <div class="arrow">&#9654;</div>
             </div>
 
@@ -110,7 +89,6 @@
                 <p>访问部门编号: ${officialbooking.department}</p>
                 <p>交通工具: ${officialbooking.vehicle}</p>
                 <p>车牌号: ${officialbooking.vname}</p>
-<%--                <p>同行人员: ${officialbooking.number}</p>--%>
                 <div class="booking-list" id="friends">
                     <div class="booking-item">
                         <div class="details">
@@ -129,7 +107,6 @@
                     </div>
                 </div>
             </div>
-
         </c:forEach>
     </div>
 </div>
